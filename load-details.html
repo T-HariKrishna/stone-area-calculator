@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Load Details</title>
+    <link rel="stylesheet" href="main.css" />
+    <style>
+      body {
+        background: #a7d4cb;
+      }
+      h1 {
+        font-size: 40px;
+      }
+      .load-details {
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #c7e9e6;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        font-family: sans-serif;
+      }
+
+      .load-details h1 {
+        margin-bottom: 20px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        font-size: 20px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-group label {
+        margin-bottom: 5px;
+        font-weight: 600;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 19px;
+      }
+
+      .full-width {
+        grid-column: 1 / -1;
+      }
+
+      .btn-container {
+        display: flex;
+        justify-content: center;
+      }
+
+      .save-btn {
+        display: block;
+        margin: 20px auto;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .save-btn:hover {
+        transform: translateY(-2px);
+        /* box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4); */
+      }
+
+      .save-btn:active {
+        transform: translateY(0);
+      }
+
+      .alert-popup {
+        display: none;
+        position: fixed;
+        top: 10%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        min-width: 300px;
+        text-align: center;
+      }
+
+      .alert-popup p {
+        margin-bottom: 15px;
+        font-size: 19px;
+        color: black;
+        font-family: sans-serif;
+      }
+
+      .alert-popup button {
+        background: #4f8a7a;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .alert-popup button:hover {
+        opacity: 0.9;
+      }
+
+      .form-group {
+        position: relative;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding-right: 35px;
+        box-sizing: border-box;
+      }
+
+      .clear-btn {
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+        cursor: pointer;
+        font-size: 16px;
+        color: #666;
+        user-select: none;
+      }
+
+      .clear-btn:hover {
+        color: #000;
+      }
+      .navbar {
+        margin: 15px 0;
+      }
+
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+
+        /* text-align: center; */
+        align-content: center;
+        padding: 8px 7px;
+        font-size: 19px;
+        margin: 10px 0px;
+        border-radius: 10px;
+        background: #bbe0db59;
+        color: black;
+        font-weight: 600;
+        transition: 0.3s;
+      }
+
+      .nav-links a:hover {
+        background: blue;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://unpkg.com/imask"></script>
+
+    <div id="customAlert" class="alert-popup">
+      <p id="alertMessage"></p>
+      <button onclick="closeAlert()">OK</button>
+    </div>
+
+    <div class="load-details">
+      <center><h1>Load Details</h1></center>
+
+      <nav class="navbar">
+        <div class="nav-links">
+          <a href="index.html">Calculator</a>
+          <a href="load-details.html" class="active">Load Details</a>
+          <a href="history.html">History</a>
+        </div>
+      </nav>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="loadDate">Load Date *</label>
+          <input
+            type="text"
+            id="loadDate"
+            placeholder="Ex: DD/MM/YYYY"
+            maxlength="10"
+          />
+          <span class="clear-btn" onclick="clearField('loadDate')">✕</span>
+          <small id="dateError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="vehicleNo">Vehicle Number *</label>
+          <input
+            type="text"
+            id="vehicleNo"
+            placeholder="Ex: AP39AB1234"
+            oninput="this.value = this.value.toUpperCase()"
+            maxlength="10"
+            required
+          />
+
+          <span class="clear-btn" onclick="clearField('vehicleNo')">✕</span>
+        </div>
+
+        <div class="form-group">
+          <label for="driverName">Driver Name *</label>
+          <input
+            type="text"
+            id="driverName"
+            placeholder="Enter Driver Name"
+            oninput="this.value = this.value.toUpperCase()"
+            required
+          />
+          <span class="clear-btn" onclick="clearField('driverName')">✕</span>
+        </div>
+
+        <div class="form-group">
+          <label for="miningOwner">Mining Owner Name *</label>
+          <input
+            type="text"
+            id="miningOwner"
+            placeholder="Enter Mining Owner Name"
+            oninput="this.value = this.value.toUpperCase()"
+            required
+          />
+          <span class="clear-btn" onclick="clearField('miningOwner')">✕</span>
+        </div>
+        <div class="form-group">
+          <label for="miningOwnerPhone">Mining Owner Name Phone No *</label>
+          <input
+            type="text"
+            maxlength="10"
+            id="miningOwnerPhone"
+            placeholder="Enter Mining Owner Phone No"
+            required
+          />
+          <span class="clear-btn" onclick="clearField('miningOwnerPhone')"
+            >✕</span
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="factoryOwner">Factory Owner Name *</label>
+          <input
+            type="text"
+            id="factoryOwner"
+            placeholder="Enter Factory Owner Name"
+            oninput="this.value = this.value.toUpperCase()"
+            required
+          />
+          <span class="clear-btn" onclick="clearField('factoryOwner')">✕</span>
+        </div>
+
+        <div class="form-group">
+          <label for="factoryPhone">Factory Owner Phone</label>
+
+          <input
+            type="tel"
+            id="factoryPhone"
+            maxlength="10"
+            placeholder="Optional"
+          />
+          <span class="clear-btn" onclick="clearField('factoryPhone')">✕</span>
+        </div>
+
+        <!-- <div class="form-group">
+          <label for="stoneType">Stone Type</label>
+          <input
+            type="text"
+            id="stoneType"
+            placeholder="Black Granite / Marble"
+            />
+          </div> -->
+
+        <div class="form-group full-width">
+          <label for="remarks">Remarks</label>
+          <textarea
+            id="remarks"
+            rows="3"
+            placeholder="Optional notes..."
+          ></textarea>
+          <span class="clear-btn" onclick="clearField('remarks')">✕</span>
+        </div>
+      </div>
+      <div class="btn-container">
+        <button class="save-btn">Save Details</button>
+      </div>
+    </div>
+
+    <script>
+      function clearField(id) {
+        document.getElementById(id).value = "";
+        document.getElementById(id).focus();
+      }
+
+      //custom pop up messages
+      function showAlert(message) {
+        document.getElementById("alertMessage").textContent = message;
+        document.getElementById("customAlert").style.display = "block";
+      }
+
+      function closeAlert() {
+        document.getElementById("customAlert").style.display = "none";
+      }
+
+      //IMask, which handles cursor position correctly while correcting the date.
+      IMask(document.getElementById("loadDate"), {
+        mask: "00/00/0000",
+      });
+
+      //Restoring the values
+      window.addEventListener("DOMContentLoaded", () => {
+        const savedData = JSON.parse(localStorage.getItem("loadDetails"));
+        // console.log(savedData);
+        if (savedData) {
+          document.getElementById("loadDate").value =
+            savedData.DateOfLoading || "";
+
+          document.getElementById("vehicleNo").value =
+            savedData.vehicleNo || "";
+
+          document.getElementById("driverName").value =
+            savedData.driverName || "";
+
+          document.getElementById("miningOwner").value =
+            savedData.miningOwner || "";
+
+          document.getElementById("miningOwnerPhone").value =
+            savedData.miningOwnerPhone || "";
+
+          document.getElementById("factoryOwner").value =
+            savedData.factoryOwner || "";
+
+          document.getElementById("factoryPhone").value =
+            savedData.factoryPhone || "";
+        }
+      });
+
+      //formatting the date & adding slashes in b/w the date
+      const loadDate = document.getElementById("loadDate");
+      const dateError = document.getElementById("dateError");
+
+      // Auto-insert /
+      loadDate.addEventListener("input", (e) => {
+        let value = e.target.value.replace(/\D/g, "");
+
+        if (value.length > 2) {
+          value = value.slice(0, 2) + "/" + value.slice(2);
+        }
+
+        if (value.length > 5) {
+          value = value.slice(0, 5) + "/" + value.slice(5, 9);
+        }
+
+        e.target.value = value;
+      });
+
+      const phoneInputs = [
+        document.getElementById("miningOwnerPhone"),
+        document.getElementById("factoryPhone"),
+      ];
+
+      phoneInputs.forEach((input) => {
+        input.addEventListener("input", () => {
+          input.value = input.value.replace(/\D/g, "").slice(0, 10);
+        });
+      });
+
+      //storing the values in local storage
+      document.querySelector(".save-btn").addEventListener("click", () => {
+        // const date = new Date(document.getElementById("loadDate").value);
+
+        // const dd = String(date.getDate()).padStart(2, "0");
+        // const mm = String(date.getMonth() + 1).padStart(2, "0");
+        // const yy = String(date.getFullYear());
+
+        const loadDate = document.getElementById("loadDate").value;
+        const parts = loadDate.split("/");
+        if (parts.length !== 3) {
+          showAlert("Please enter a valid date (DD/MM/YYYY)");
+          return; // Stops execution
+        }
+
+        const [dd, mm, yyyy] = loadDate.split("/").map(Number);
+
+        // Day validation
+        if (dd < 1 || dd > 31) {
+          showAlert(`Invalid day (${dd}). Day must be between 01 and 31.`);
+          return;
+        }
+
+        // Month validation
+        if (mm < 1 || mm > 12) {
+          showAlert(`Invalid month (${mm}). Month must be between 01 and 12.`);
+          return;
+        }
+
+        // Year validation
+        if (yyyy < 2000 || yyyy > 2100) {
+          showAlert(
+            `Invalid year (${yyyy}). Please enter a valid year upto 2100.`,
+          );
+          return;
+        }
+
+        // Full date validation
+        const date = new Date(yyyy, mm - 1, dd);
+
+        if (
+          date.getFullYear() !== yyyy ||
+          date.getMonth() !== mm - 1 ||
+          date.getDate() !== dd
+        ) {
+          showAlert(
+            `The date ${loadDate} is not valid. Month ${mm} does not have ${dd} days.`,
+          );
+          return;
+        }
+
+        //phone number validations
+        const miningPhone = document
+          .getElementById("miningOwnerPhone")
+          .value.trim();
+
+        const factoryPhone = document
+          .getElementById("factoryPhone")
+          .value.trim();
+
+        const mobileRegex = /^[6-9]\d{9}$/;
+
+        // Mining Owner Phone (Required)
+        if (!mobileRegex.test(miningPhone)) {
+          showAlert(
+            "Mining Owner Phone Number must be a valid 10-digit mobile number.Remember mobile numbers shuold starts with 6, 7, 8, or 9",
+          );
+          return;
+        }
+
+        // Factory Phone (Optional)
+        // Validate only if user entered a value
+        if (factoryPhone !== "" && !mobileRegex.test(factoryPhone)) {
+          showAlert(
+            "Factory Owner Phone Number must be a valid 10-digit mobile number.Remember mobile numbers shuold starts with 6, 7, 8, or 9",
+          );
+          return;
+        }
+
+        const loadDetails = {
+          DateOfLoading: document.getElementById("loadDate").value,
+          vehicleNo: document.getElementById("vehicleNo").value,
+          driverName: document.getElementById("driverName").value,
+          miningOwner: document.getElementById("miningOwner").value,
+          miningOwnerPhone: document.getElementById("miningOwnerPhone").value,
+          factoryOwner: document.getElementById("factoryOwner").value,
+          factoryPhone: document.getElementById("factoryPhone").value,
+          remarks: document.getElementById("remarks").value,
+        };
+
+        localStorage.setItem("loadDetails", JSON.stringify(loadDetails));
+
+        alert("Load details are saved");
+        window.location.href = "index.html";
+      });
+    </script>
+  </body>
+</html>
