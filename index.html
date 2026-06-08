@@ -1,0 +1,2085 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Customized-Stone-Area-THK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+          "Ubuntu", "Cantarell", sans-serif;
+        background: linear-gradient(135deg, #7ed9e0 0%, #528e7a 100%);
+        min-height: 100vh;
+        padding: 40px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      h1 {
+        color: #2d3748;
+        font-size: 34px;
+        margin-bottom: 30px;
+        /* font-size: 28px; */
+        text-align: center;
+        font-weight: 700;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      
+      .navbar{
+   /* border: 1px solid black; */
+    /* background:#ffffff; */
+    /* box-shadow:0 2px 15px rgba(0,0,0,0.08); */
+    /* padding:15px 40px; */
+    /* border: 1px solid black; */
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    /* position:sticky; */
+    top:0;
+    /* z-index:1000; */
+    }
+
+
+
+.nav-links{
+    display:flex;
+    gap:20px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:black;
+    font-size:22px;
+    font-weight:600;
+
+    padding:10px 9px;
+    border-radius:10px;
+
+    /* border: 1px solid black; */
+    transition:all 0.3s ease;
+}
+
+.nav-links a:hover{
+    background:#2563eb;
+    color:white;
+    transform:translateY(-2px);
+}
+
+.saveBtnContainer{
+      display: flex;
+        justify-content: center;
+}
+#saveBtn{
+ display: block;
+        margin-top
+        : 20px;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: white;
+        font-size: 19px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+}
+
+/* .nav-links a.active{
+    background:#2563eb;
+    color:white;
+} */
+
+
+      
+
+      .calculator-wrapper {
+        background: rgb(200, 237, 233);
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        padding: 40px;
+        max-width: 750px;
+        width: 100%;
+        animation: slideIn 0.5s ease-out;
+
+        /* border: 1px solid black; */
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      #container {
+        margin-bottom: 30px;
+        /* border: 1px solid black; */
+      }
+
+      .row {
+        background: #589ac9;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 15px;
+
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        transition: all 0.3s ease;
+        animation: fadeIn 0.4s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+          transform: scale(1);
+        }
+        to {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+      }
+
+      .row:hover {
+        background: #72a6cb;
+        transform: translateX(3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      input {
+        width: 90px;
+        padding: 12px 10px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 24px;
+        transition: all 0.3s ease;
+        background: rgb(210, 245, 225);
+        color: #0a0a0a;
+        font-weight: 700;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        transform: translateY(-2px);
+      }
+
+      input::placeholder {
+        color: rgb(100, 88, 88);
+      }
+
+      .result,
+      .final {
+        font-weight: 700;
+        color: #0a0a0a;
+        font-size: 28px;
+        padding: 8px 10px;
+        background: rgb(203, 244, 237);
+        border-radius: 6px;
+        min-width: 70px;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .final {
+        color: blue;
+
+        /* font-size: 18px; */
+      }
+
+      .delete-btn {
+        padding: 13px 17px;
+        background: #1ec009;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 17px;
+        margin-left: 10px;
+        transition: all 0.3s ease;
+        /* margin-left: auto; */
+      }
+
+      .delete-btn:hover {
+        background: #e53e3e;
+        transform: scale(1.05);
+      }
+      .delete-btn:active {
+        transform: scale(0.95);
+      }
+
+      .button-group,
+      #calc {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      button,
+      #calc {
+        padding: 14px 28px;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Add More */
+      .button-group button:nth-child(1),
+      #calc {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        font-weight: 800;
+        font-size: 18px;
+      }
+
+      /* Calculate Total */
+      .button-group button:nth-child(2) {
+        background: linear-gradient(135deg, #48bb78, #38a169);
+        /* color: rgb(70, 62, 62); */
+        font-weight: 800;
+        font-size: 19px;
+      }
+
+      .total-stones {
+        background: linear-gradient(135deg, #84caa4, #9bbdc2);
+        /* color: white; */
+        padding: 3px;
+        border-radius: 4px;
+        width: 170px;
+        text-align: center;
+        font-size: 19px;
+      }
+
+      #total-stones {
+        font-size: 30px;
+        font-weight: 750;
+        margin-bottom: 3px;
+      }
+
+      #calc {
+        margin-top: 20px;
+        padding-bottom: 20px;
+      }
+      #calc a {
+        margin-top: 5px;
+        text-decoration: none;
+        color: white;
+        /* color: rgb(70, 62, 62); */
+        font-weight: 800;
+        font-size: 19px;
+      }
+      button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      }
+      button:active {
+        transform: translateY(-1px);
+      }
+
+      .total-section {
+        background: linear-gradient(135deg, #72799b 0%, #ab90c5 100%);
+        /* color: white; */
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        font-weight: bolder;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+      }
+
+      .total-section h2 {
+        font-size: 28px;
+        font-weight: 800;
+        /* color: white; */
+        margin-bottom: 10px;
+      }
+      .total-chadaralu-section {
+        background: linear-gradient(135deg, rgb(71, 209, 214) 0%, #5e92aa 100%);
+        /* color: white; */
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        margin-top: 10px;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+      }
+      .total-chadaralu-section h2 {
+        font-size: 28px;
+        font-weight: 800;
+      }
+      #total-chadaralu {
+        font-weight: bold;
+        font-size: 39px;
+      }
+
+      #total {
+        font-size: 39px;
+        font-weight: 800;
+        display: block;
+        margin-top: 10px;
+        animation: pulse 0.5s ease-out;
+      }
+      .delete-all-btn {
+        background: linear-gradient(135deg, #f56565, #e53e3e);
+        color: black;
+        font-weight: 800;
+        font-size: 19px;
+      }
+      .clear-all-btn {
+        background: linear-gradient(135deg, #98af31, rgb(228, 228, 25));
+        margin-left: 30px;
+        color: black;
+        font-size: 19px;
+        font-weight: 800;
+      }
+      #refreshBtn {
+        background: linear-gradient(135deg, rgb(12, 218, 97), rgb(5, 163, 202));
+        margin-left: 30px;
+        color: black;
+        font-size: 19px;
+        font-weight: 800;
+      }
+      #date {
+        font-weight: bold;
+        text-align: end;
+        font-size: 19px;
+
+        /* margin-right: 57px; */
+        margin-bottom: 30px;
+      }
+
+   
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+      #loadInfo h3 {
+        margin: 0 0 30px;
+        text-align: center;
+        color: #007bff;
+        font-size: 24px;
+        font-weight: 600;
+      }
+       #loadInfo {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 10px 15px;
+  /* background: #ffffff; */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  /* border-left: 5px solid #007bff; */
+  font-size: 19px;
+  line-height: 0.4;
+  font-weight: bold;
+}
+
+
+#loadInfo p {
+  margin: 8px 0;
+  padding: 8px 12px;
+  /* background: #f8f9fa; */
+  border-radius: 6px;
+  font-size: 19px;
+}
+
+#loadInfo strong {
+  color: black;
+  display: inline-block;
+  min-width: 140px;
+}
+    
+#dateOfLoading{
+      margin-left: 16px;
+    }
+    #showVehicle{
+      margin-left: 100px;
+    }
+    #showDriver{
+      
+      margin-left: 100px;
+    }#showMining{
+      
+      margin-left: 100px;
+    }#showOwnerPhone{
+       margin-left: 12px;
+
+     }#showFactory{
+      margin-left: 100px;
+     }
+
+      /* ── Mobile layout ── */
+      @media (min-width: 390px) and (max-width: 440px) {
+        #loadInfo p{
+          padding: 0;
+          font-size: 17px;
+          line-height: 1;
+        }
+        #dateOfLoading{
+      margin-left: 3px;
+    }
+        #showVehicle
+     {
+      margin-left: 65px;
+    }#showDriver{
+      
+      margin-left:65px;
+    }#showMining{
+      
+      margin-left: 65px;
+    }#showOwnerPhone{
+       margin-left: 0px;
+
+     }#showFactory{
+      margin-left: 65px;
+     }
+        body {
+          padding: 20px 6px;
+        }
+     
+
+        .calculator-wrapper {
+          padding: 12px 8px;
+          border-radius: 15px;
+          /* width: auto; */
+        }
+
+        .row {
+          display: flex;
+          flex-wrap: nowrap;
+          align-items: center;
+          gap: 4px;
+          padding: 8px 6px;
+          overflow-x: auto;
+        }
+
+        .row:hover {
+          transform: none;
+          box-shadow: none;
+        }
+
+        .num1,
+        .num2,
+        .num3 {
+          width: 52px;
+          min-width: 52px;
+          padding: 8px 4px;
+          font-size: 15px;
+        }
+
+        .result,
+        .final {
+          /* font-size: 17px;
+          min-width: 80px;
+          padding: 6px 4px;
+          white-space: nowrap; */
+          flex: 0 1 auto; /* allow grow but controlled */
+          min-width: 80px;
+          max-width: 140px;
+          font-size: 17px;
+          white-space: nowrap;
+          overflow-x: auto;
+        }
+
+        .spacer {
+          display: none;
+        }
+
+        .delete-btn {
+          padding: 8px 10px;
+          font-size: 13px;
+          margin-left: 0;
+          white-space: nowrap;
+        }
+        .clear-all-btn,
+        #refreshBtn {
+          margin-left: 0;
+          margin-top: 10px;
+        }
+
+        .button-group {
+          flex-direction: column;
+          gap: 10px;
+        }
+        button {
+          width: 100%;
+          font-size: 16px;
+        }
+
+        .total-stones {
+          font-weight: bolder;
+          width: 100%;
+          padding: 10px;
+          font-size: 18px;
+        }
+        .total-section {
+          padding: 5px;
+        }
+        #total {
+          font-size: 35px;
+        }
+        #total-chadaralu {
+          font-size: 35px;
+          font-weight: bolder;
+        }
+        h1 {
+          font-size: 24px;
+          color: black;
+        }
+        #date {
+          font-weight: bold;
+          text-align: end;
+          font-size: 15px;
+
+          /* margin-right: 57px; */
+          margin-bottom: 20px;
+        }
+
+        .navbar{
+        /* padding:15px 20px; */
+        flex-direction:column;
+        gap:15px;
+        }
+
+    .logo{
+        font-size:20px;
+        }
+
+    .nav-links{
+        width:100%;
+        justify-content:center;
+        flex-wrap:wrap;
+    }
+
+    .nav-links a{
+        font-size:17px;
+    }
+    .nav-links a:hover{
+    background:#2563eb;
+    color:white;
+    transform:translateY(-2px);
+    }
+      }
+
+     
+     
+     
+  
+</style>
+    </style>
+  </head>
+
+  <body>
+    <div class="calculator-wrapper">
+      <p id="date"></p>
+      <h1>Stone Area Calculator - THK</h1>
+      <nav class="navbar">
+        
+        <div class="nav-links">
+          <a href="index.html">Calculator</a>
+          <a href="index.html">Only Calculator</a>
+          <a href="load-details.html" class="active">Load Details</a>
+          <a href="history.html">History</a>
+        </div>
+      </nav>
+      <div id="loadInfo">
+  <h3>Load Information</h3>
+  
+  <p><strong>Date Of Loading Vehicle</strong> <span id="dateOfLoading"></span></p>
+  <p><strong>Vehicle</strong> <span id="showVehicle"></span></p>
+
+  <p><strong>Driver</strong> <span id="showDriver"></span></p>
+
+  <p><strong>Mining Owner</strong> <span id="showMining"></span></p>
+  <p><strong>Mining Owner Phone No</strong> <span id="showOwnerPhone"></span></p>
+  
+  <p><strong>Factory Owner</strong> <span id="showFactory"></span></p>
+</div>
+      <div id="container">
+        <div class="row">
+          <input
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+            value="2.5"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input type="number" step="0.5" class="num3" placeholder="No.of" />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+            value="3"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="1.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input type="number" step="0.5" class="num3" placeholder="No.of" />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="3"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="3"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+            value="3.5"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="1.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input type="number" step="0.5" class="num3" placeholder="No.of" />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="3.5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="3.5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="4"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="1.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="4"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="4"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="4.5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="1.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="4.5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="4.5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="1.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="5.5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="1.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="5.5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="5.5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="6"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="1.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="6"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="6"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="6.5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="1.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="6.5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="6.5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+
+        <div class="row">
+          <input
+            value="7"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="1.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="7"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="7"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="7.5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="1.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="7.5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+        <div class="row">
+          <input
+            value="7.5"
+            type="number"
+            step="0.5"
+            min="1"
+            class="num1"
+            placeholder="Size"
+          />
+          <span class="mul1">×</span>
+          <input
+            value="2.5"
+            type="number"
+            step="0.5"
+            class="num2"
+            placeholder="Size"
+          />
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input
+            id="stones"
+            type="number"
+            step="0.5"
+            class="num3"
+            placeholder="No.of"
+          />
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button onclick="addRow()">Add More</button>
+        <button onclick="calculateTotal()">Calculate Total</button>
+        <div class="total-stones">
+          <h3>Total Stones / మొత్తం రాళ్లు</h3>
+          <center id="total-stones">0</center>
+        </div>
+      </div>
+
+      <div class="total-section">
+        <h2>Total Square Feet / చదరపు అడుగులు</h2>
+        <span id="total">0</span>
+      </div>
+      <div class="total-chadaralu-section">
+        <h2>Total Squares / మొత్తం చదరాలు</h2>
+        <span id="total-chadaralu">0</span>
+      </div>
+      <!-- <div class="saveBtnContainer">
+        <button id="saveBtn">Save in DB</button>
+      </div> -->
+      <div class="saveBtnContainer">
+        <button id="saveBtn" onclick="saveToHistory()">Save To History </button>
+      </div>
+      <div class="saveBtnContainer">
+        <button id="saveBtn" onclick="downloadImage()">Download Image </button>
+      </div>
+
+      <div style="text-align: center; margin-top: 20px">
+        <button class="delete-all-btn" onclick="deleteAllRows()">
+          Delete All
+        </button>
+        <button class="clear-all-btn" onclick="ClearAllRows()">
+          Clear All
+        </button>
+        <button id="refreshBtn" onclick="refreshPage()">🔄 Refresh</button>
+      </div>
+
+      <div id="calc"><a href="calculator.html">Go To Calculator</a></div>
+    </div>
+
+    
+
+    <script>
+
+//To refresh page
+      function refreshPage() {
+        window.location.reload();
+      }
+
+
+function refreshCalculator() {
+    document.querySelectorAll(".row").forEach(row => {
+        const num3 = row.querySelector(".num3");
+
+        if (num3) {
+            num3.value = 0;
+        }
+    });
+
+    calculateAll(); // if you have a calculation function
+}
+
+// Save Calculator Data to History Logs
+function saveToHistory() {
+  const rows = [];
+  console.log("Rows count:", document.querySelectorAll(".row").length);
+  document.querySelectorAll(".row").forEach((row) => {
+    const n1 = parseFloat(row.querySelector(".num1").value) || 0;
+    const n2 = parseFloat(row.querySelector(".num2").value) || 0;
+    const n3 = parseFloat(row.querySelector(".num3").value) || 0;
+    if (n1 > 0 || n2 > 0 || n3 > 0) {
+      rows.push({ n1, n2, n3 });
+    }
+  });
+
+  if (rows.length === 0) {
+    alert("Please add some data before saving.");
+    return;
+  }
+
+  const loadDetails = JSON.parse(localStorage.getItem("loadDetails")) || {};
+  const totalStones =
+    parseInt(document.getElementById("total-stones").innerText) || 0;
+  const totalSqFt = parseFloat(document.getElementById("total").innerText) || 0;
+  const totalChadaralu =
+    parseFloat(document.getElementById("total-chadaralu").innerText) || 0;
+
+    console.log("rows before save:", rows);
+console.log("rows length:", rows.length);
+  const report = {
+    id: crypto.randomUUID(),
+    date: new Date().toISOString(),
+    loadDetails,
+    rows,
+    totalStones,
+    totalSqFt,
+    totalChadaralu,
+  };
+
+  const history = JSON.parse(localStorage.getItem("reportHistory")) || [];
+  history.unshift(report); // Add to the top
+  localStorage.setItem("reportHistory", JSON.stringify(history));
+
+  alert("Report saved to History successfully!");
+}
+
+
+//reload the load detials
+const loadDetails =
+  JSON.parse(localStorage.getItem("loadDetails"));
+
+if (loadDetails) {
+
+  document.getElementById("dateOfLoading").textContent =": "+
+    loadDetails.DateOfLoading || "";
+  
+    document.getElementById("showVehicle").textContent =": "+
+    loadDetails.vehicleNo || "";
+
+  document.getElementById("showDriver").textContent =": "+
+    loadDetails.driverName || "";
+
+  document.getElementById("showMining").textContent =": "+
+    loadDetails.miningOwner || "";
+    document.getElementById("showOwnerPhone").textContent =": "+
+      loadDetails.miningOwnerPhone || "";
+    
+  document.getElementById("showFactory").textContent =": "+
+    loadDetails.factoryOwner || "";
+}
+
+//download image
+      function downloadImage() {
+  const tempDiv = document.createElement("div");
+
+  // Add date
+  tempDiv.appendChild(
+    document.getElementById("date").cloneNode(true)
+  );
+
+  // Add heading
+  tempDiv.appendChild(
+    document.querySelector("h1").cloneNode(true)
+  );
+
+  // Load info
+  tempDiv.appendChild(
+    document.getElementById("loadInfo").cloneNode(true)
+  );
+  // Add all rows
+  tempDiv.appendChild(
+    document.getElementById("container").cloneNode(true)
+  );
+
+  // Add totals
+  tempDiv.appendChild(
+    document.querySelector(".total-stones").cloneNode(true)
+  );
+
+  tempDiv.appendChild(
+    document.querySelector(".total-section").cloneNode(true)
+  );
+
+  tempDiv.appendChild(
+    document.querySelector(".total-chadaralu-section").cloneNode(true)
+  );
+
+  // Keep it off-screen
+  tempDiv.style.position = "absolute";
+  tempDiv.style.left = "-9999px";
+  tempDiv.style.background = "white";
+  tempDiv.style.padding = "20px";
+
+  document.body.appendChild(tempDiv);
+
+ // Trigger local storage save to history automatic on download
+  //  saveToHistory();
+
+  html2canvas(tempDiv, {
+  scale: 1,
+  backgroundColor: "#ffffff"
+}).then(canvas => {
+  const imgData = canvas.toDataURL("image/jpeg", 0.8);
+
+  const link = document.createElement("a");
+  link.href = imgData;
+  link.download = `StoneReport_${crypto.randomUUID()}.jpg`;
+  link.click();
+  document.body.removeChild(tempDiv);
+});
+}
+      
+
+      // TO SHOW CURRENT DATE WITH DAY
+
+      let today = new Date();
+
+      let days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
+
+      let dayName = days[today.getDay()];
+
+      let day = String(today.getDate()).padStart(2, "0");
+      let month = String(today.getMonth() + 1).padStart(2, "0");
+      let year = today.getFullYear();
+
+      let formattedDate = `${day}/${month}/${year},${dayName}`;
+
+      document.getElementById("date").innerText = "Date: " + formattedDate;
+
+      //Clear all row input values
+      function ClearAllRows() {
+        // Select all input fields
+        document.querySelectorAll(".row input").forEach((input) => {
+          input.value = "";
+        });
+
+        // Reset row calculations
+        document.querySelectorAll(".row").forEach((row) => {
+          row.querySelector(".result").innerText = "= 0";
+
+          row.querySelector(".final").innerText = "= 0";
+        });
+
+        // Reset totals
+        document.getElementById("total").innerText = "0";
+
+        // Reset total stones if available
+        const stoneEl = document.getElementById("total-stones");
+
+        if (stoneEl) {
+          stoneEl.innerText = "0";
+        }
+      }
+
+      /* ── Input sanitisation ── */
+      document.addEventListener("input", function (e) {
+        if (e.target.tagName !== "INPUT") return;
+
+        let value = e.target.value;
+
+        if (!/^\d*\.?\d*$/.test(value)) {
+          e.target.value = value.slice(0, -1);
+          return;
+        }
+
+        if (value.startsWith(".")) {
+          e.target.value = "0" + value;
+        }
+      });
+
+      /* ── Row HTML helper ── */
+      function rowHTML() {
+        return `
+          <input type="number" step="0.5" inputmode="decimal" class="num1" placeholder="Num1">
+          <span class="mul1">×</span>
+          <input type="number" step="0.5" class="num2" placeholder="Num2">
+          <span class="result">= 0</span>
+          <span class="spacer"></span>
+          <span class="mul2">×</span>
+          <input type="number" step="0.5" class="num3" placeholder="Next">
+          <span class="final">= 0</span>
+          <button class="delete-btn" onclick="deleteRow(event)">✕</button>
+        `;
+      }
+
+      /* ── Delete row ── */
+      function deleteRow(event) {
+        const row = event.target.closest(".row");
+        if (row) {
+          row.style.animation = "fadeOut 0.3s ease-out";
+          setTimeout(() => row.remove(), 300);
+        }
+      }
+
+      /* ── Add row ── */
+      function addRow() {
+        const div = document.createElement("div");
+        div.className = "row";
+        div.innerHTML = rowHTML();
+        document.getElementById("container").appendChild(div);
+      }
+
+      /* ── Live calculations ── */
+      document.addEventListener("input", updateCalculations);
+
+      function updateCalculations() {
+        let totalstones = 0;
+
+        document.querySelectorAll(".row").forEach((row) => {
+          const n1 = parseFloat(row.querySelector(".num1").value) || 0;
+          const n2 = parseFloat(row.querySelector(".num2").value) || 0;
+          const n3 = parseFloat(row.querySelector(".num3").value) || 0;
+          const n4 = parseFloat(row.querySelector(".num3").value) || 0;
+
+          const res1 = Math.floor(n1 * n2);
+
+          const final = Math.floor(res1 * n3);
+
+          totalstones += n4;
+
+          row.querySelector(".result").innerText = "= " + res1;
+
+          row.querySelector(".final").innerText = "= " + final;
+        });
+
+        document.getElementById("total-stones").innerHTML = totalstones;
+      }
+
+      /* ── Arrow-key navigation ── */
+      document.addEventListener("keydown", function (e) {
+        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+
+        const target = e.target;
+        if (target.tagName !== "INPUT") return;
+
+        const row = target.closest(".row");
+        if (!row) return;
+
+        const inputs = Array.from(row.querySelectorAll("input"));
+        const idx = inputs.indexOf(target);
+        if (idx === -1) return;
+
+        //  RIGHT ARROW
+        if (e.key === "ArrowRight") {
+          if (idx === inputs.length - 1) {
+            const container = document.getElementById("container");
+
+            //  Check if this row is the LAST row
+            const isLastRow = row === container.lastElementChild;
+
+            if (isLastRow) {
+              // ➕ Add new row
+              addRow();
+
+              const allRows = document.querySelectorAll(".row");
+              const lastRow = allRows[allRows.length - 1];
+              lastRow.querySelector("input").focus();
+            } else {
+              //  Move to next row first input
+              const nextRow = row.nextElementSibling;
+              if (nextRow) {
+                nextRow.querySelector("input").focus();
+              }
+            }
+          } else {
+            inputs[idx + 1].focus();
+          }
+        }
+
+        //  LEFT ARROW
+        if (e.key === "ArrowLeft") {
+          if (idx === 0) {
+            // Optional: go to previous row last input
+            const prevRow = row.previousElementSibling;
+            if (prevRow) {
+              const prevInputs = prevRow.querySelectorAll("input");
+              prevInputs[prevInputs.length - 1].focus();
+            }
+          } else {
+            inputs[idx - 1].focus();
+          }
+        }
+      });
+
+      /*remove all rows*/
+      function deleteAllRows() {
+        const container = document.getElementById("container");
+
+        // Remove all rows
+        container.innerHTML = "";
+
+        //  add one fresh empty row
+        const div = document.createElement("div");
+        div.className = "row";
+        div.innerHTML = rowHTML();
+        container.appendChild(div);
+
+        // Reset total
+        const totalEl = document.getElementById("total");
+        totalEl.innerText = "0";
+
+        // Animation reset
+        totalEl.style.animation = "none";
+        setTimeout(() => {
+          totalEl.style.animation = "pulse 0.5s ease-out";
+        }, 10);
+      }
+
+      let entryCounter = 0;
+
+      /* =========================================================
+TRACK USER ENTRY ORDER
+========================================================= */
+
+      document.addEventListener("input", function (e) {
+        if (e.target.classList.contains("num3")) {
+          // assign order only first time
+          if (!e.target.dataset.order && e.target.value.trim() !== "") {
+            entryCounter++;
+            e.target.dataset.order = entryCounter;
+          }
+
+          // remove order if cleared
+          if (e.target.value.trim() === "") {
+            delete e.target.dataset.order;
+          }
+        }
+      });
+
+      /* =========================================================
+SORT ROWS BASED ON ENTRY ORDER
+========================================================= */
+
+      function sortRowsByEntryOrder() {
+        const container = document.getElementById("container");
+
+        const rows = Array.from(container.querySelectorAll(".row"));
+
+        rows.sort((a, b) => {
+          const aOrder =
+            parseInt(a.querySelector(".num3").dataset.order) || 9999;
+
+          const bOrder =
+            parseInt(b.querySelector(".num3").dataset.order) || 9999;
+
+          return aOrder - bOrder;
+        });
+
+        rows.forEach((row) => {
+          container.appendChild(row);
+        });
+      }
+
+      /* =========================================================
+CALCULATE TOTAL
+========================================================= */
+
+      function calculateTotal() {
+        // rearrange rows first
+        sortRowsByEntryOrder();
+
+        let total = 0;
+
+        document.querySelectorAll(".row").forEach((row) => {
+          const num3Value = row.querySelector(".num3").value.trim();
+
+          // delete empty rows
+          if (num3Value === "") {
+            row.remove();
+            return;
+          }
+
+          const n1 = parseFloat(row.querySelector(".num1").value) || 0;
+
+          const n2 = parseFloat(row.querySelector(".num2").value) || 0;
+
+          const n3 = parseFloat(num3Value) || 0;
+
+          total += Math.floor(Math.floor(n1 * n2) * n3);
+        });
+
+        const totalEle = document.getElementById("total");
+
+        const totalChadaraluEle = document.getElementById("total-chadaralu");
+
+        const totalChadaraluValue = (total / 100).toFixed(2);
+        // const totalChadaraluValue = (total / 100).toFixed(2).padStart(5, "0");//04.94
+        totalChadaraluEle.innerHTML = totalChadaraluValue;
+        totalEle.innerText = total;
+
+        totalEle.style.animation = "none";
+
+        setTimeout(() => {
+          totalEle.style.animation = "pulse 0.5s ease-out";
+        }, 10);
+      }
+
+
+
+
+//       window.addEventListener("DOMContentLoaded", () => {
+//         console.log("Reload Triggered");
+//   const activeRows = JSON.parse(localStorage.getItem("activeRows")) || [];
+//  console.log(activeRows);
+//   if (activeRows.length > 0) {
+//     const container = document.getElementById("container");
+
+//     // remove existing rows
+//     container.innerHTML = "";
+
+//     activeRows.forEach(data => {
+//       addRow();
+
+//       const newRow = container.lastElementChild;
+
+//       newRow.querySelector(".num1").value = data.n1;
+//       newRow.querySelector(".num2").value = data.n2;
+//       newRow.querySelector(".num3").value = data.n3;
+//     });
+
+//     updateCalculations();
+//     calculateTotal();
+//   }
+
+//   const loadDetails =
+//     JSON.parse(localStorage.getItem("loadDetails")) || {};
+
+//   document.getElementById("showVehicle").textContent =
+//     ": " + (loadDetails.vehicleNo || "");
+
+//   document.getElementById("showDriver").textContent =
+//     ": " + (loadDetails.driverName || "");
+
+//   document.getElementById("showMining").textContent =
+//     ": " + (loadDetails.miningOwner || "");
+
+//   document.getElementById("showOwnerPhone").textContent =
+//     ": " + (loadDetails.miningOwnerPhone || "");
+
+//   document.getElementById("showFactory").textContent =
+//     ": " + (loadDetails.factoryOwner || "");
+
+//   document.getElementById("dateOfLoading").textContent =
+//     ": " + (loadDetails.DateOfLoading || "");
+// });
+
+    </script>
+  </body>
+</html>
