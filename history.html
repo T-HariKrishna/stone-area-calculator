@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Saved History Logs - Stone Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  </head>
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #7ed9e0 0%, #528e7a 100%);
+
+      --card-bg: rgb(146, 221, 214);
+      --card-hover: rgb(214, 245, 241);
+
+      --primary: black;
+      --secondary: #528e7a;
+      --accent: #4aa8b5;
+
+      --text-dark: #23423a;
+      --text-muted: #5f7f78;
+
+      --border: rgba(82, 142, 122, 0.15);
+
+      --shadow: 0 8px 24px rgba(82, 142, 122, 0.12);
+
+      --shadow-hover: 0 12px 32px rgba(82, 142, 122, 0.22);
+    }
+
+    /* BODY */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", sans-serif;
+      background: #52dfd3;
+      color: var(--text-dark);
+    }
+
+    /* MAIN WRAPPER */
+    .calculator-wrapper {
+      max-width: 750px;
+      width: 100%;
+      margin: 30px auto;
+      padding: 30px;
+      border-radius: 24px;
+
+      background: #c7e9e6;
+
+      backdrop-filter: blur(12px);
+
+      border: 1px solid rgba(6, 184, 238, 0.932);
+      /* border: 1px solid black; */
+
+      /* box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08); */
+    }
+
+    /* PAGE TITLE */
+    h1 {
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 34px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: black;
+      margin-bottom: 25px;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    /* HISTORY CARD */
+    .history-card {
+      background: var(--card-bg);
+
+      border-radius: 18px;
+
+      padding: 10px;
+
+      margin-bottom: 20px;
+
+      border: 1px solid var(--border);
+
+      box-shadow: var(--shadow);
+      color: black;
+      transition: all 0.3s ease;
+    }
+
+    .history-card:hover {
+      transform: translateY(-2px);
+
+      background: #c7e9e6;
+
+      box-shadow: var(--shadow-hover);
+    }
+
+    /* HEADER */
+    .history-card-header {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+
+      margin-bottom: 18px;
+
+      border-bottom: 1px solid rgba(82, 142, 122, 0.15);
+
+      font-size: 17px;
+      font-weight: 700;
+      padding-bottom: 12px;
+    }
+
+    .history-card-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .history-card-date {
+      color: var(--text-muted);
+      font-size: 16px;
+      color: black;
+      font-weight: bold;
+    }
+
+    /* GRID */
+    .history-card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 230px);
+      gap: 15px;
+
+      margin-bottom: 20px;
+    }
+
+    .history-card-metric {
+      background: rgba(171, 233, 219, 0.5);
+
+      border-radius: 12px;
+
+      padding: 10px;
+      color: black;
+
+      text-align: center;
+    }
+
+    .history-card-metric span:first-child {
+      display: block;
+
+      font-size: 0.85rem;
+
+      color: var(--text-muted);
+
+      margin-bottom: 8px;
+    }
+
+    .history-card-metric span:last-child {
+      font-size: 1.2rem;
+
+      font-weight: 700;
+
+      color: var(--primary);
+    }
+
+    /* BUTTONS */
+    .history-card-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .btn-secondary,
+    .btn-success,
+    .btn-danger {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-secondary {
+      background: #4aa8b5;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #3b97a4;
+    }
+
+    .btn-success {
+      background: #528e7a;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #447665;
+    }
+
+    .btn-danger {
+      background: #dc5d5d;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #c74848;
+    }
+
+    /* DELETE ALL BUTTON */
+    #clearHistoryBtn {
+      background: #dc5d5d;
+      color: white;
+    }
+
+    /* EMPTY MESSAGE */
+    .no-history {
+      background: rgba(255, 255, 255, 0.35);
+
+      padding: 25px;
+
+      border-radius: 16px;
+      font-size: 18px;
+
+      text-align: center;
+
+      color: black;
+
+      font-weight: 500;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      margin: 15px 0;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+
+      text-align: center;
+      align-content: center;
+      padding: 8px 9px;
+      font-size: 20px;
+
+      border-radius: 10px;
+
+      background: #bbe0db59;
+
+      color: var(--primary);
+
+      font-weight: 600;
+
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      background: blue;
+      color: white;
+    }
+    #showDetails {
+      cursor: pointer;
+      color: black;
+      font-weight: 700;
+      margin-left: 47px;
+      text-align: center;
+      /* width: 150px; */
+      padding: 2px 0;
+      /* border: 1px solid black; */
+      /* background-color: #a6e7e2; */
+      border-radius: 10px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .history-card {
+        max-height: auto;
+        padding: 10px;
+      }
+      .history-card-title {
+        font-size: 10px;
+      }
+      .history-card-header {
+        display: flex;
+        justify-content: flex-end;
+        /* align-items: center; */
+
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 0px;
+        font-size: 10px;
+        padding-bottom: 4px;
+        /* border: 1px solid black; */
+      }
+      .history-card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 110px);
+        /* grid-template-columns: 1fr; */
+        /* max-height: 100px; */
+        margin-bottom: 10px;
+      }
+
+      .history-card-metric {
+        padding: 0px;
+        margin: 0px;
+      }
+
+      .history-card-actions {
+        flex-wrap: wrap;
+
+        justify-content: end;
+      }
+      .history-card-date {
+        color: var(--text-muted);
+        font-size: 8px;
+        color: black;
+        /* font-weight: bold; */
+      }
+
+      .calculator-wrapper {
+        background: #c7e9e6;
+      }
+    }
+  </style>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <div class="calculator-wrapper">
+      <!-- <button
+        class="theme-toggle-btn"
+        onclick="toggleTheme()"
+        title="Toggle Theme"
+      >
+        ☀️
+      </button>
+      <p id="date" class="date-header">Date: --/--/----</p> -->
+
+      <h1>Saved Reports History</h1>
+      <p class="subtitle">View and Manage Local Stone Load Entries</p>
+
+      <nav class="navbar">
+        <div class="nav-links">
+          <a href="index.html">Calculator</a>
+          <a href="load-details.html" class="active">Load Details</a>
+          <a href="history.html">History</a>
+        </div>
+      </nav>
+
+      <div
+        style="display: flex; justify-content: flex-end; margin-bottom: 20px"
+      >
+        <button
+          id="clearHistoryBtn"
+          class="btn-danger"
+          style="display: none"
+          onclick="clearAllHistory()"
+        >
+          🗑️ Delete All History
+        </button>
+      </div>
+
+      <!-- History listing container -->
+      <div id="historyContainer">
+        <!-- Rendered dynamically -->
+        <div class="no-history">
+          No saved reports found. Run a calculation and export or save it to
+          store history locally.
+        </div>
+      </div>
+    </div>
+
+    <!-- Application script bundle -->
+    <!-- <script src="app.js"></script> -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        renderHistory();
+      });
+
+      function renderHistory() {
+        const history = JSON.parse(localStorage.getItem("reportHistory")) || [];
+        const container = document.getElementById("historyContainer");
+        const clearBtn = document.getElementById("clearHistoryBtn");
+
+        if (history.length === 0) {
+          container.innerHTML = `<div class="no-history">No saved reports found. Run a calculation and export or save it to store history locally.</div>`;
+          clearBtn.style.display = "none";
+          return;
+        }
+
+        clearBtn.style.display = "inline-flex";
+        container.innerHTML = "";
+
+        history.forEach((report) => {
+          const date = new Date(report.date).toLocaleString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true,
+          });
+          const vehicle = report.loadDetails?.vehicleNo || "N/A";
+          const driver = report.loadDetails?.driverName || "N/A";
+          const miningOwner = report.loadDetails?.miningOwner || "N/A";
+          const miningOwnerPhone =
+            report.loadDetails?.miningOwnerPhone || "N/A";
+          const factoryOwner = report.loadDetails?.factoryOwner || "N/A";
+
+          const card = document.createElement("div");
+          card.className = "history-card";
+          card.innerHTML = `
+            <div class="history-card-header">
+             <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;">
+    <span id="vehicleNo" class="history-card-title">Vehicle No: ${vehicle}</span>
+    <span id="driverName">Driver: ${driver}</span>
+    <span id="miningOwnerName">Mining Owner: ${miningOwner}</span>
+
+    <span id="factoryOwnername">Factory Owner: ${factoryOwner}</span>
+
+    <span  class="history-card-date">Date: ${date}</span>
+    <span id="showDetails"
+      onclick="showDetails('${vehicle}','${driver}','${miningOwner}','${miningOwnerPhone}','${factoryOwner}')"
+      >
+      View Details →
+    </span>
+</div>
+            </div>
+            <div   class="history-card-grid">
+              <div class="history-card-metric">
+                <span style="color:black;font-size:14px; font-weight:700">Total Stones</span>
+                <span>${report.totalStones}</span>
+              </div>
+              <div class="history-card-metric">
+                <span style="color:black;font-size:14px; font-weight:700">Total Area</span>
+                <span>${report.totalSqFt} SqFt</span>
+              </div>
+              <div class="history-card-metric">
+                <span style="color:black;font-size:12px; font-weight:700">Squares/చదరాలు</span>
+                <span>${report.totalChadaralu}</span>
+              </div>
+            </div>
+            <div class="history-card-actions">
+              <button class="btn-success" onclick="downloadSpecificReport('${report.id}')">💾 Image</button>
+              <button class="btn-danger" onclick="deleteHistoryItem('${report.id}')">✕</button>
+              </div>
+              `;
+          container.appendChild(card);
+        });
+      }
+
+      //show details
+      function showDetails(vehicle, driver, miningOwner, phone, factoryOwner) {
+        Swal.fire({
+          title: "Load Details",
+          html: `
+            <div style="text-align:left;">
+                <p><b>Vehicle:</b> ${vehicle}</p>
+                <p><b>Driver:</b> ${driver}</p>
+                <p><b>Mining Owner:</b> ${miningOwner}</p>
+                <p><b>Phone:</b> ${phone}</p>
+                <p><b>Factory Owner:</b> ${factoryOwner}</p>
+            </div>
+        `,
+          confirmButtonText: "Close",
+        });
+      }
+      // <button class="btn-secondary" onclick="loadIntoCalculator('${report.id}')">📐 Reload</button>
+
+      function loadIntoCalculator(id) {
+        const history = JSON.parse(localStorage.getItem("reportHistory")) || [];
+
+        const report = history.find((r) => r.id === id);
+
+        if (!report) return;
+
+        localStorage.setItem("activeRows", JSON.stringify(report.rows));
+
+        localStorage.setItem(
+          "loadDetails",
+          JSON.stringify(report.loadDetails || {}),
+        );
+
+        console.log(report.rows);
+        alert("Calculator rows and load details reloaded successfully!");
+        window.location.href = "calc.html";
+      }
+
+      function deleteHistoryItem(id) {
+        if (
+          confirm("Are you sure you want to delete this report from history?")
+        ) {
+          let history = JSON.parse(localStorage.getItem("reportHistory")) || [];
+          history = history.filter((r) => r.id !== id);
+          localStorage.setItem("reportHistory", JSON.stringify(history));
+          renderHistory();
+        }
+      }
+
+      function clearAllHistory() {
+        if (
+          confirm(
+            "Are you sure you want to delete ALL saved reports? This action is irreversible.",
+          )
+        ) {
+          localStorage.removeItem("reportHistory");
+          renderHistory();
+        }
+      }
+
+      function downloadSpecificReport(id) {
+        const history = JSON.parse(localStorage.getItem("reportHistory")) || [];
+        const report = history.find((r) => r.id === id);
+        if (!report) return;
+
+        // Build report template dynamically
+        const reportWrapper = document.createElement("div");
+        reportWrapper.style.position = "absolute";
+        reportWrapper.style.left = "-9999px";
+        reportWrapper.style.width = "720px";
+        reportWrapper.style.background = "rgb(200, 237, 233)";
+        reportWrapper.style.color = "#1f2937";
+        reportWrapper.style.padding = "30px";
+        reportWrapper.style.fontFamily = "'Outfit', sans-serif";
+        reportWrapper.style.borderRadius = "20px";
+        reportWrapper.style.boxShadow = "0 15px 40px rgba(0,0,0,0.15)";
+
+        const reportDate = new Date(report.date).toLocaleString("en-IN");
+
+        const headerHtml = `
+<div style="
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.3);
+">
+    <div style="
+        font-size: 0.95rem;
+        color: #334155;
+        text-align: right;
+        font-weight: 600;
+    ">
+        Date: ${reportDate}
+    </div>
+
+    <h2 style="
+        font-size: 2rem;
+        margin: 8px 0 0;
+        color: #0f172a;
+        font-weight: 800;
+        text-align:center;
+    ">
+        Stone Area Report
+    </h2>
+</div>
+`;
+        reportWrapper.innerHTML += headerHtml;
+
+        // Add load details if exists
+        if (report.loadDetails) {
+          const loadDetails = report.loadDetails;
+          const infoHtml = `
+<div
+    style="
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      font-size: 20px;
+      color: black;
+      font-family: sans-serif;
+      /* width: 100%; */
+      margin-bottom: 20px;
+      padding: 24px;
+      line-height: 0.2;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    "
+  >
+    <h3
+      style="
+        margin: 0 0 40px;
+        color: #0f172a;
+        font-size: 36px;
+        font-weight: 800;
+        text-align: center;
+      "
+    >
+      Truck Load Information
+    </h3>
+
+    <p
+      style="
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      "
+    >
+      <strong>Date Of Loading Vehicle</strong>
+      <span>${loadDetails.DateOfLoading || "--"}</span>
+    </p>
+
+    <p
+      style="
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      "
+    >
+      <strong>Vehicle Number</strong>
+      <span>${loadDetails.vehicleNo || "--"}</span>
+    </p>
+
+    <p
+      style="
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      "
+    >
+      <strong>Driver Name</strong>
+      <span>${loadDetails.driverName || "--"}</span>
+    </p>
+
+    <p
+      style="
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      "
+    >
+      <strong>Mining Owner</strong>
+      <span>${loadDetails.miningOwner || "--"}</span>
+    </p>
+
+    <p
+      style="
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      "
+    >
+      <strong>Mining Owner Phone</strong>
+      <span>${loadDetails.miningOwnerPhone || "--"}</span>
+    </p>
+
+    <p style="display: flex; justify-content: space-between; padding: 10px 0">
+      <strong>Factory Owner</strong>
+      <span>${loadDetails.factoryOwner || "--"}</span>
+    </p>
+  </div>
+`;
+          reportWrapper.innerHTML += infoHtml;
+        }
+
+        const itemListHeadingDiv = `
+       <div
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 0;
+      font-size: 20px;
+      font-weight: bolder;
+      font-family: sans-serif;
+      border-bottom: 1px solid rgba(226, 223, 223, 0.05);
+      color: black;
+      text-decoration: underline;
+    "
+  >
+    <span style="font-family: sans-serif; font-weight: bolder"
+      >Len x Width =(l x b) x No. of stones = Total Square Feet</span
+    >
+  </div>
+        `;
+
+        reportWrapper.innerHTML += itemListHeadingDiv;
+
+        // Calculation list
+        if (report.rows && report.rows.length > 0) {
+          const listWrapper = document.createElement("div");
+          listWrapper.style.marginBottom = "25px";
+          listWrapper.style.background = "rgba(255,255,255,0.02)";
+          listWrapper.style.border = "1px solid rgba(255,255,255,0.08)";
+          listWrapper.style.borderRadius = "12px";
+          listWrapper.style.padding = "15px";
+
+          console.log(report.rows);
+          // let rowCounter = 1;
+          report.rows.forEach((row) => {
+            const n1 = row.n1 || 0;
+            const n2 = row.n2 || 0;
+            const res = Math.floor(n1 * n2);
+            const n3 = row.n3 || 0;
+            const final = Math.floor(res * n3);
+
+            const itemHtml = `
+              <div
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 0;
+      font-size: 20px;
+      font-family: sans-serif;
+      border-bottom: 1px solid rgba(226, 223, 223, 0.05);
+    "
+  >
+    <span style="color: black; font-weight: bolder"
+      ><strong>${n1} × ${n2} = ${res} x ${n3}(Qty) =</strong
+      ><span style="color: green; font-weight: bolder"
+        >${final} SqFt</span
+      ></span
+    >
+  </div>
+            `;
+            listWrapper.innerHTML += itemHtml;
+            // rowCounter++;
+          });
+          reportWrapper.appendChild(listWrapper);
+        }
+
+        // Totals
+        const footerHtml = `
+           <div
+    style="
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 15px;
+      border-top: 2px solid rgba(255, 255, 255, 0.15);
+      padding-top: 20px;
+    "
+  >
+    <div
+      style="
+        background: rgb(200, 237, 233);
+
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 12px;
+        text-align: center;
+      "
+    >
+      <div
+        style="
+          font-size: 18px;
+          color: black;
+          text-transform: uppercase;
+          margin-bottom: 4px;
+          font-weight: bolder;
+        "
+      >
+        Total Stones
+      </div>
+      <div style="font-size: 1.8rem; font-weight: 800; color: darkblue">
+        ${report.totalStones}
+      </div>
+    </div>
+    <div
+      style="
+        background: rgb(200, 237, 233);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 12px;
+        text-align: center;
+        font-weight: bolder;
+      "
+    >
+      <div
+        style="
+          font-size: 18px;
+          color: black;
+          text-transform: uppercase;
+          margin-bottom: 4px;
+        "
+      >
+        Total Area (SqFt)
+      </div>
+      <div style="font-size: 1.8rem; font-weight: 800; color: brown">
+        ${report.totalSqFt}
+      </div>
+    </div>
+    <div
+      style="
+        background: rgb(200, 237, 233);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 12px;
+        text-align: center;
+        font-weight: bolder;
+      "
+    >
+      <div
+        style="
+          text-transform: uppercase;
+          font-size: 18px;
+          color: black;
+          margin-bottom: 4px;
+        "
+      >
+        Total Squares/మొత్తం చదరాలు
+      </div>
+      <div style="font-size: 1.8rem; font-weight: 800; color: green">
+        ${report.totalChadaralu}
+      </div>
+    </div>
+  </div>
+
+        `;
+        reportWrapper.innerHTML += footerHtml;
+
+        document.body.appendChild(reportWrapper);
+
+        html2canvas(reportWrapper, {
+          scale: 1,
+          backgroundColor: "#0f172a",
+        })
+          .then((canvas) => {
+            const imgData = canvas.toDataURL("image/jpeg", 0.8);
+            const link = document.createElement("a");
+            link.href = imgData;
+            link.download = `StoneReport_${report.loadDetails?.vehicleNo || "NoVehicle"}_${report.id.slice(0, 8)}.jpg`;
+            link.click();
+            document.body.removeChild(reportWrapper);
+          })
+          .catch((err) => {
+            console.error("Canvas rendering failed", err);
+            document.body.removeChild(reportWrapper);
+            alert("Failed to render report image.");
+          });
+      }
+    </script>
+  </body>
+</html>
