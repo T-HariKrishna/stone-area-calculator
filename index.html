@@ -1731,7 +1731,11 @@ if (loadDetails) {
 
   const link = document.createElement("a");
   link.href = imgData;
-  link.download = `StoneReport_${crypto.randomUUID()}.jpg`;
+  const now = new Date();
+   const timestamp = `${now.getDate().toString().padStart(2, '0')}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getFullYear()}_${now.getHours().toString().padStart(2, '0')}-${now.getMinutes().toString().padStart(2, '0')}`;
+
+link.download = `StoneReport_${loadDetails?.vehicleNo || "NoVehicle"}_${timestamp}.jpg`;
+
   link.click();
   document.body.removeChild(tempDiv);
 });
