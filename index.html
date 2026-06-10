@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Customized-Stone-Area-THK</title>
+    <title>Stone Area Calculator-THK</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -57,6 +57,7 @@
 }
 
 .nav-links a{
+  background: #78dbdb;
     text-decoration:none;
     color:black;
     font-size:22px;
@@ -79,7 +80,7 @@
       display: flex;
         justify-content: center;
 }
-#saveBtn{
+#saveBtn,#downloadBtn{
  display: block;
         margin-top
         : 20px;
@@ -92,6 +93,9 @@
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s ease;
+}
+#downloadBtn{
+  background: linear-gradient(135deg, #05b40e, #30bb069f);
 }
 
 /* .nav-links a.active{
@@ -612,6 +616,7 @@
         
         <div class="nav-links">
           <a href="index.html">Calculator</a>
+          <!-- <a href="index.html">Calculator</a> -->
           <a href="load-details.html" class="active">Load Details</a>
           <a href="history.html">History</a>
         </div>
@@ -1566,10 +1571,10 @@
         <button id="saveBtn">Save in DB</button>
       </div> -->
       <div class="saveBtnContainer">
-        <button id="saveBtn" onclick="saveToHistory()">Save To History </button>
+        <button id="saveBtn" onclick="saveToHistory()"> Save To History </button>
       </div>
-      <div class="saveBtnContainer">
-        <button id="saveBtn" onclick="downloadImage()">Download Image </button>
+      <div class="downloadBtnContainer" > 
+        <button id="downloadBtn"  onclick="downloadImage()">💾 Download Image </button>
       </div>
 
       <div style="text-align: center; margin-top: 20px">
@@ -1732,10 +1737,9 @@ if (loadDetails) {
   const link = document.createElement("a");
   link.href = imgData;
   const now = new Date();
-   const timestamp = `${now.getDate().toString().padStart(2, '0')}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getFullYear()}_${now.getHours().toString().padStart(2, '0')}-${now.getMinutes().toString().padStart(2, '0')}`;
+const timestamp = `${now.getDate().toString().padStart(2, '0')}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getFullYear()}_${now.getHours().toString().padStart(2, '0')}-${now.getMinutes().toString().padStart(2, '0')}`;
 
 link.download = `StoneReport_${loadDetails?.vehicleNo || "NoVehicle"}_${timestamp}.jpg`;
-
   link.click();
   document.body.removeChild(tempDiv);
 });
