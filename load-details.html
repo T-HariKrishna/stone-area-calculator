@@ -136,10 +136,26 @@
         font-size: 16px;
         color: #666;
         user-select: none;
+        font-weight: 800;
+      }
+      .clear-btn-stone-type {
+        position: absolute;
+        right: 39px;
+        bottom: 12px;
+        cursor: pointer;
+        font-size: 16px;
+        color: #666;
+        user-select: none;
+        font-weight: 800;
+      }
+      .clear-btn-stone-type:hover {
+        color: #000;
+        transform: translateX(-1px);
       }
 
       .clear-btn:hover {
         color: #000;
+        transform: translateX(-1px);
       }
       .navbar {
         margin: 15px 0;
@@ -169,6 +185,13 @@
       .nav-links a:hover {
         background: blue;
         color: white;
+      }
+      #stoneType {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 19px;
+        font-family: sans-serif;
       }
     </style>
   </head>
@@ -203,6 +226,18 @@
           <small id="dateError"></small>
         </div>
 
+        <div class="form-group">
+          <label for="Stones Type">Choose Stone Type:</label>
+
+          <select id="stoneType" name="Stone Type">
+            <option value="" selected disabled>Choose Stone Type</option>
+            <option value="Kolathalu(కొలతలు)">కొలతలు</option>
+            <option value="Mandhalu(మందలు)">మందలు</option>
+          </select>
+          <span class="clear-btn-stone-type" onclick="clearField('stoneType')"
+            >✕</span
+          >
+        </div>
         <div class="form-group">
           <label for="vehicleNo">Vehicle Number *</label>
           <input
@@ -303,6 +338,7 @@
     </div>
 
     <script>
+      //clear fields
       function clearField(id) {
         document.getElementById(id).value = "";
         document.getElementById(id).focus();
@@ -330,6 +366,8 @@
         if (savedData) {
           document.getElementById("loadDate").value =
             savedData.DateOfLoading || "";
+          document.getElementById("stoneType").value =
+            savedData.StoneType || "";
 
           document.getElementById("vehicleNo").value =
             savedData.vehicleNo || "";
@@ -462,6 +500,7 @@
 
         const loadDetails = {
           DateOfLoading: document.getElementById("loadDate").value,
+          StoneType: document.getElementById("stoneType").value,
           vehicleNo: document.getElementById("vehicleNo").value,
           driverName: document.getElementById("driverName").value,
           miningOwner: document.getElementById("miningOwner").value,
