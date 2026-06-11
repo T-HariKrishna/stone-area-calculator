@@ -76,7 +76,7 @@
     transform:translateY(-2px);
 }
 
-.saveBtnContainer{
+.saveBtnContainer,.downloadBtnContainer{
       display: flex;
         justify-content: center;
 }
@@ -95,7 +95,8 @@
         transition: all 0.3s ease;
 }
 #downloadBtn{
-  background: linear-gradient(135deg, #05b40e, #30bb069f);
+  /* margin-left: 32%; */
+  background: linear-gradient(135deg, #05b40e, #1d69069f);
 }
 
 /* .nav-links a.active{
@@ -431,6 +432,9 @@
 #dateOfLoading{
       margin-left: 16px;
     }
+    #stoneType{
+      margin-left: 100px;
+    }
     #showVehicle{
       margin-left: 100px;
     }
@@ -456,6 +460,10 @@
         }
         #dateOfLoading{
       margin-left: 3px;
+    }
+        #stoneType{
+          font-size: 12.5px;
+      margin-left: 65px;
     }
         #showVehicle
      {
@@ -625,6 +633,7 @@
   <h3>Load Information</h3>
   
   <p><strong>Date Of Loading Vehicle</strong> <span id="dateOfLoading"></span></p>
+  <p><strong>Stone Type</strong> <span id="stoneType"></span></p>
   <p><strong>Vehicle</strong> <span id="showVehicle"></span></p>
 
   <p><strong>Driver</strong> <span id="showDriver"></span></p>
@@ -1601,15 +1610,17 @@
 
 
 function refreshCalculator() {
-    document.querySelectorAll(".row").forEach(row => {
-        const num3 = row.querySelector(".num3");
 
-        if (num3) {
-            num3.value = 0;
-        }
-    });
+  window.refreshPage()
+    // document.querySelectorAll(".row").forEach(row => {
+    //     const num3 = row.querySelector(".num3");
 
-    calculateAll(); // if you have a calculation function
+    //     if (num3) {
+    //         num3.value = 0;
+    //     }
+    // });
+
+    // calculateAll(); // if you have a calculation function
 }
 
 // Save Calculator Data to History Logs
@@ -1663,8 +1674,14 @@ const loadDetails =
 
 if (loadDetails) {
 
+
+  
   document.getElementById("dateOfLoading").textContent =": "+
     loadDetails.DateOfLoading || "";
+  document.getElementById("stoneType").textContent =": "+
+    loadDetails.StoneType || "--";
+    console.log( document.getElementById("stoneType").textContent =": "+
+    loadDetails.StoneType || "--");
   
     document.getElementById("showVehicle").textContent =": "+
     loadDetails.vehicleNo || "";
@@ -1679,6 +1696,8 @@ if (loadDetails) {
     
   document.getElementById("showFactory").textContent =": "+
     loadDetails.factoryOwner || "";
+  document.getElementById("factoryPhone").textContent =": "+
+    loadDetails.factoryOwnerPhone || "";
 }
 
 //download image
