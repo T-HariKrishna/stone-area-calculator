@@ -1603,6 +1603,34 @@
 
     <script>
 
+
+/* ── Live calculations ── */
+      document.addEventListener("input", updateCalculations);
+
+      function updateCalculations() {
+        let totalstones = 0;
+
+        document.querySelectorAll(".row").forEach((row) => {
+          const n1 = parseFloat(row.querySelector(".num1").value) || 0;
+          const n2 = parseFloat(row.querySelector(".num2").value) || 0;
+          const n3 = parseFloat(row.querySelector(".num3").value) || 0;
+          const n4 = parseFloat(row.querySelector(".num3").value) || 0;
+
+          const res1 = Math.floor(n1 * n2);
+
+          const final = Math.floor(res1 * n3);
+
+          totalstones += n4;
+
+          row.querySelector(".result").innerText = "= " + res1;
+
+          row.querySelector(".final").innerText = "= " + final;
+        });
+
+        document.getElementById("total-stones").innerHTML = totalstones;
+      }
+
+      
 //To refresh page
       function refreshPage() {
         window.location.reload();
@@ -1862,32 +1890,7 @@ link.download = `StoneReport_${loadDetails?.vehicleNo || "NoVehicle"}_${timestam
         document.getElementById("container").appendChild(div);
       }
 
-      /* ── Live calculations ── */
-      document.addEventListener("input", updateCalculations);
-
-      function updateCalculations() {
-        let totalstones = 0;
-
-        document.querySelectorAll(".row").forEach((row) => {
-          const n1 = parseFloat(row.querySelector(".num1").value) || 0;
-          const n2 = parseFloat(row.querySelector(".num2").value) || 0;
-          const n3 = parseFloat(row.querySelector(".num3").value) || 0;
-          const n4 = parseFloat(row.querySelector(".num3").value) || 0;
-
-          const res1 = Math.floor(n1 * n2);
-
-          const final = Math.floor(res1 * n3);
-
-          totalstones += n4;
-
-          row.querySelector(".result").innerText = "= " + res1;
-
-          row.querySelector(".final").innerText = "= " + final;
-        });
-
-        document.getElementById("total-stones").innerHTML = totalstones;
-      }
-
+      
       /* ── Arrow-key navigation ── */
       document.addEventListener("keydown", function (e) {
         if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
