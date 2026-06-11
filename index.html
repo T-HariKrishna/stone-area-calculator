@@ -1628,6 +1628,92 @@
 
         document.getElementById("total-stones").innerHTML = totalstones;
       }
+      
+      let entryCounter = 0;
+
+      /* =========================================================
+TRACK USER ENTRY ORDER
+========================================================= */
+
+      document.addEventListener("input", function (e) {
+        if (e.target.classList.contains("num3")) {
+          // assign order only first time
+          if (!e.target.dataset.order && e.target.value.trim() !== "") {
+            entryCounter++;
+            e.target.dataset.order = entryCounter;
+          }
+
+          // remove order if cleared
+          if (e.target.value.trim() === "") {
+            delete e.target.dataset.order;
+          }
+        }
+      });
+
+      /* =========================================================
+SORT ROWS BASED ON ENTRY ORDER
+========================================================= */
+
+      function sortRowsByEntryOrder() {
+        const container = document.getElementById("container");
+
+        const rows = Array.from(container.querySelectorAll(".row"));
+
+        rows.sort((a, b) => {
+          const aOrder =
+            parseInt(a.querySelector(".num3").dataset.order) || 9999;
+
+          const bOrder =
+            parseInt(b.querySelector(".num3").dataset.order) || 9999;
+
+          return aOrder - bOrder;
+        });
+
+        rows.forEach((row) => {
+          container.appendChild(row);
+        });
+      }
+
+      /* =========================================================
+CALCULATE TOTAL
+========================================================= */
+
+      function calculateTotal() {
+        // rearrange rows first
+        sortRowsByEntryOrder();
+
+        let total = 0;
+
+        document.querySelectorAll(".row").forEach((row) => {
+          const num3Value = row.querySelector(".num3").value.trim();
+
+          // delete empty rows
+          if (num3Value === "") {
+            row.remove();
+            return;
+          }
+
+          const n1 = parseFloat(row.querySelector(".num1").value) || 0;
+          const n2 = parseFloat(row.querySelector(".num2").value) || 0;
+          const n3 = parseFloat(num3Value) || 0;
+          total += Math.floor(Math.floor(n1 * n2) * n3);
+        
+        });
+
+        const totalEle = document.getElementById("total");
+        const totalChadaraluEle = document.getElementById("total-chadaralu");
+        const totalChadaraluValue = (total / 100).toFixed(2);
+
+        // const totalChadaraluValue = (total / 100).toFixed(2).padStart(5, "0");//04.94
+        totalChadaraluEle.innerHTML = totalChadaraluValue;
+        totalEle.innerText = total;
+        totalEle.style.animation = "none";
+
+        setTimeout(() => {
+          totalEle.style.animation = "pulse 0.5s ease-out";
+        }, 10);
+      }
+
 
 //To refresh page
       function refreshPage() {
@@ -1966,91 +2052,6 @@ link.download = `StoneReport_${loadDetails?.vehicleNo || "NoVehicle"}_${timestam
         totalEl.style.animation = "none";
         setTimeout(() => {
           totalEl.style.animation = "pulse 0.5s ease-out";
-        }, 10);
-      }
-
-      let entryCounter = 0;
-
-      /* =========================================================
-TRACK USER ENTRY ORDER
-========================================================= */
-
-      document.addEventListener("input", function (e) {
-        if (e.target.classList.contains("num3")) {
-          // assign order only first time
-          if (!e.target.dataset.order && e.target.value.trim() !== "") {
-            entryCounter++;
-            e.target.dataset.order = entryCounter;
-          }
-
-          // remove order if cleared
-          if (e.target.value.trim() === "") {
-            delete e.target.dataset.order;
-          }
-        }
-      });
-
-      /* =========================================================
-SORT ROWS BASED ON ENTRY ORDER
-========================================================= */
-
-      function sortRowsByEntryOrder() {
-        const container = document.getElementById("container");
-
-        const rows = Array.from(container.querySelectorAll(".row"));
-
-        rows.sort((a, b) => {
-          const aOrder =
-            parseInt(a.querySelector(".num3").dataset.order) || 9999;
-
-          const bOrder =
-            parseInt(b.querySelector(".num3").dataset.order) || 9999;
-
-          return aOrder - bOrder;
-        });
-
-        rows.forEach((row) => {
-          container.appendChild(row);
-        });
-      }
-
-      /* =========================================================
-CALCULATE TOTAL
-========================================================= */
-
-      function calculateTotal() {
-        // rearrange rows first
-        sortRowsByEntryOrder();
-
-        let total = 0;
-
-        document.querySelectorAll(".row").forEach((row) => {
-          const num3Value = row.querySelector(".num3").value.trim();
-
-          // delete empty rows
-          if (num3Value === "") {
-            row.remove();
-            return;
-          }
-
-          const n1 = parseFloat(row.querySelector(".num1").value) || 0;
-          const n2 = parseFloat(row.querySelector(".num2").value) || 0;
-          const n3 = parseFloat(num3Value) || 0;
-          total += Math.floor(Math.floor(n1 * n2) * n3);
-        
-        });
-
-        const totalEle = document.getElementById("total");
-        const totalChadaraluEle = document.getElementById("total-chadaralu");
-        const totalChadaraluValue = (total / 100).toFixed(2);
-
-        // const totalChadaraluValue = (total / 100).toFixed(2).padStart(5, "0");//04.94
-        totalChadaraluEle.innerHTML = totalChadaraluValue;
-        totalEle.innerText = total;
-        totalEle.style.animation = "none";
-
-        setTimeout(() => {
-          totalEle.style.animation = "pulse 0.5s ease-out";
         }, 10);
       }
 
