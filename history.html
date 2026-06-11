@@ -33,7 +33,7 @@
       margin: 0;
       min-height: 100vh;
       font-family: "Segoe UI", sans-serif;
-      background: #52dfd3;
+      background: #84ccc6;
       color: var(--text-dark);
     }
 
@@ -75,18 +75,47 @@
     /* HISTORY CARD */
     .history-card {
       background: var(--card-bg);
-
       border-radius: 18px;
-
       padding: 10px;
-
       margin-bottom: 20px;
-
       border: 1px solid var(--border);
-
       box-shadow: var(--shadow);
       color: black;
       transition: all 0.3s ease;
+    }
+    .stone-summary {
+      /* border: 1px solid black; */
+      display: flex;
+      gap: 12px;
+      margin: 30px 0px 15px;
+      flex-wrap: wrap;
+    }
+
+    .stone-summary div {
+      flex: 1;
+      /* width: 100px; */
+      background: rgb(93, 212, 157);
+      border-radius: 14px;
+      padding: 14px 18px;
+      text-align: center;
+      font-size: 23px;
+      font-weight: 800;
+      color: #191d22;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      transition: transform 0.2s ease;
+    }
+
+    .stone-summary div:hover {
+      transform: translateY(-2px);
+    }
+
+    .stone-summary span {
+      display: block;
+      margin-top: 6px;
+      font-size: 30px;
+      font-weight: 700;
+      color: black;
     }
 
     .history-card:hover {
@@ -269,6 +298,19 @@
 
     /* MOBILE */
     @media (max-width: 768px) {
+      .stone-summary {
+        gap: 8px;
+      }
+
+      .stone-summary div {
+        min-width: 120px;
+        padding: 12px;
+        font-size: 13px;
+      }
+
+      .stone-summary span {
+        font-size: 18px;
+      }
       #clearHistoryBtn {
         font-size: 10px;
       }
@@ -371,6 +413,17 @@
           <a href="history.html">History</a>
         </div>
       </nav>
+      <div class="stone-summary">
+        <div>
+          Kolathalu(కొలతలు) మొత్తం చదరపు అడుగులు
+          <span id="kolathaluSum">0</span>
+        </div>
+
+        <div>
+          Mandhalu(మందలు) మొత్తం చదరపు అడుగులు
+          <span id="mandhaluSum">0</span>
+        </div>
+      </div>
 
       <div
         style="display: flex; justify-content: flex-end; margin-bottom: 20px"
@@ -408,6 +461,9 @@
         const clearBtn = document.getElementById("clearHistoryBtn");
 
         if (history.length === 0) {
+          document.getElementById("kolathaluSum").textContent = 0;
+          document.getElementById("mandhaluSum").textContent = 0;
+
           container.innerHTML = `<div class="no-history">No saved reports found. Run a calculation and export or save it to store history locally.</div>`;
           clearBtn.style.display = "none";
           return;
@@ -415,6 +471,10 @@
 
         clearBtn.style.display = "inline-flex";
         container.innerHTML = "";
+
+        let stoneTypeText = "";
+        let kolathaluSum = 0;
+        let mandhaluSum = 0;
 
         history.forEach((report) => {
           const date = new Date(report.date).toLocaleString("en-GB", {
@@ -426,7 +486,19 @@
             second: "2-digit",
             hour12: true,
           });
+          // console.log(report.loadDetails);
           const vehicle = report.loadDetails?.vehicleNo || "N/A";
+          const stoneType = report.loadDetails?.StoneType || "N/A";
+          const total = Number(report.totalSqFt || 0);
+          console.log(stoneType);
+
+          if (stoneType === "Kolathalu(కొలతలు)") {
+            stoneTypeText = "కొలతలు";
+            kolathaluSum += total;
+          } else if (stoneType === "Mandhalu(మందలు)") {
+            stoneTypeText = "మందలు";
+            mandhaluSum += total;
+          }
           const driver = report.loadDetails?.driverName || "N/A";
           const miningOwner = report.loadDetails?.miningOwner || "N/A";
           const miningOwnerPhone =
@@ -436,35 +508,36 @@
           const card = document.createElement("div");
           card.className = "history-card";
           card.innerHTML = `
-            <div class="history-card-header">
-             <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;">
-    <span id="vehicleNo" class="history-card-title">Vehicle No: ${vehicle}</span>
-    <span id="driverName">Driver: ${driver}</span>
-    <span id="miningOwnerName">Mining Owner: ${miningOwner}</span>
-
-    <span id="factoryOwnername">Factory Owner: ${factoryOwner}</span>
-
+          <div class="history-card-header">
+            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;">
+              <span id="vehicleNo" class="history-card-title">Vehicle No: ${vehicle}</span>
+              
+              <span id="driverName">Stone Type: ${stoneTypeText}</span>
+              <span id="miningOwnerName">Mining Owner: ${miningOwner}</span>
+              
+              <span id="factoryOwnername">Factory Owner: ${factoryOwner}</span>
+    
     <span  class="history-card-date">Date: ${date}</span>
     <span id="showDetails"
-      onclick="showDetails('${vehicle}','${driver}','${miningOwner}','${miningOwnerPhone}','${factoryOwner}')"
-      >
-      Info >>
+    onclick="showDetails('${vehicle}','${driver}','${stoneType}','${miningOwner}','${miningOwnerPhone}','${factoryOwner}')"
+    >
+    Info >>
     </span>
-</div>
+    </div>
+    </div>
+    <div   class="history-card-grid">
+      <div class="history-card-metric">
+        <span style="color:black;font-size:14px; font-weight:700">Total Stones</span>
+        <span>${report.totalStones}</span>
+        </div>
+        <div class="history-card-metric">
+          <span style="color:black;font-size:14px; font-weight:700">Total Area</span>
+          <span>${report.totalSqFt} SqFt</span>
+          </div>
+          <div class="history-card-metric">
+            <span style="color:black;font-size:12px; font-weight:700">Squares/చదరాలు</span>
+            <span>${report.totalChadaralu}</span>
             </div>
-            <div   class="history-card-grid">
-              <div class="history-card-metric">
-                <span style="color:black;font-size:14px; font-weight:700">Total Stones</span>
-                <span>${report.totalStones}</span>
-              </div>
-              <div class="history-card-metric">
-                <span style="color:black;font-size:14px; font-weight:700">Total Area</span>
-                <span>${report.totalSqFt} SqFt</span>
-              </div>
-              <div class="history-card-metric">
-                <span style="color:black;font-size:12px; font-weight:700">Squares/చదరాలు</span>
-                <span>${report.totalChadaralu}</span>
-              </div>
             </div>
             <div class="history-card-actions">
               <button class="btn-success" onclick="downloadSpecificReport('${report.id}')">💾 Image</button>
@@ -473,44 +546,65 @@
               `;
           container.appendChild(card);
         });
+        console.log("mandhaluSum" + mandhaluSum);
+        console.log("kolathaluSum" + kolathaluSum);
+        document.getElementById("kolathaluSum").textContent = kolathaluSum;
+
+        document.getElementById("mandhaluSum").textContent = mandhaluSum;
       }
 
       //show details
-      function showDetails(vehicle, driver, miningOwner, phone, factoryOwner) {
+      function showDetails(
+        vehicle,
+        driver,
+        stoneType,
+        miningOwner,
+        phone,
+        factoryOwner,
+        factoryPhone,
+      ) {
         Swal.fire({
           title: "Load Details",
           html: `
             <div style="text-align:left;">
                 <p><b>Vehicle:</b> ${vehicle}</p>
+                <p><b>Stone Type:</b> ${stoneType}</p>
                 <p><b>Driver:</b> ${driver}</p>
                 <p><b>Mining Owner:</b> ${miningOwner}</p>
                 <p><b>Phone:</b> ${phone}</p>
                 <p><b>Factory Owner:</b> ${factoryOwner}</p>
+                <p><b>Factory Owner Number:</b> ${factoryPhone || "--"}  </p>
             </div>
         `,
           confirmButtonText: "Close",
+          background: "#84ccc6",
+          color: "black",
+
+          customClass: {
+            popup: "custom-swal-popup",
+          },
         });
       }
       // <button class="btn-secondary" onclick="loadIntoCalculator('${report.id}')">📐 Reload</button>
 
-      function loadIntoCalculator(id) {
-        const history = JSON.parse(localStorage.getItem("reportHistory")) || [];
+      // function loadIntoCalculator(id) {
+      //   const history = JSON.parse(localStorage.getItem("reportHistory")) || [];
 
-        const report = history.find((r) => r.id === id);
+      //   const report = history.find((r) => r.id === id);
 
-        if (!report) return;
+      //   if (!report) return;
 
-        localStorage.setItem("activeRows", JSON.stringify(report.rows));
+      //   localStorage.setItem("activeRows", JSON.stringify(report.rows));
 
-        localStorage.setItem(
-          "loadDetails",
-          JSON.stringify(report.loadDetails || {}),
-        );
+      //   localStorage.setItem(
+      //     "loadDetails",
+      //     JSON.stringify(report.loadDetails || {}),
+      //   );
 
-        console.log(report.rows);
-        alert("Calculator rows and load details reloaded successfully!");
-        window.location.href = "calc.html";
-      }
+      //   console.log(report.rows);
+      //   alert("Calculator rows and load details reloaded successfully!");
+      //   window.location.href = "calc.html";
+      // }
 
       function deleteHistoryItem(id) {
         if (
