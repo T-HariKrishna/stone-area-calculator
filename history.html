@@ -135,10 +135,11 @@
       margin-bottom: 18px;
 
       border-bottom: 1px solid rgba(82, 142, 122, 0.15);
+      /* border-bottom: 1px solid black; */
 
       font-size: 18px;
       font-weight: 700;
-      padding-bottom: 12px;
+      padding-bottom: 10px;
     }
 
     .history-card-title {
@@ -177,9 +178,9 @@
     .history-card-metric span:first-child {
       display: block;
 
-      font-size: 0.85rem;
-
-      color: var(--text-muted);
+      font-size: 20px;
+      font-weight: 700;
+      color: black;
 
       margin-bottom: 8px;
     }
@@ -298,23 +299,30 @@
 
     /* MOBILE */
     @media (max-width: 768px) {
+      .nav-links a {
+        font-size: 17px;
+      }
       .stone-summary {
         gap: 8px;
       }
       #showDetails {
-        width: 50px;
-        height: 14px;
-        margin-left: 40px;
+        width: 60px;
+        height: auto;
+        font-size: 9px;
+        padding: 2px 0px 3px;
+        margin-left: 50px;
       }
 
       .stone-summary div {
-        min-width: 120px;
+        width: 100px;
         padding: 12px;
         font-size: 13px;
+        /* border: 1px solid black; */
       }
 
       .stone-summary span {
-        font-size: 18px;
+        /* border: 1px solid black; */
+        font-size: 19px;
       }
       #clearHistoryBtn {
         font-size: 10px;
@@ -324,40 +332,55 @@
         max-height: auto;
         border: 1px solid black;
         padding: 10px;
+        width: auto;
       }
       .history-card-title {
-        font-size: 9px;
+        font-size: 8.5px;
       }
       .history-card-header {
-        font-size: 7px;
-        /* font-weight: 800; */
-        word-break: break-all;
+        font-size: 8px;
+        font-weight: 800;
+        /* text-align: center; */
+        word-break: keep-all;
         /* border: 1px solid black; */
       }
 
       .history-card-grid {
-        /* display: grid;
-        grid-template-columns: repeat(3, 110px); */
-        /* height: 15px; */
         margin-bottom: 10px;
-        /* gap: 3px; */
-        margin-top: -10px;
+        margin-top: -15px;
+        /* border: 1px solid black; */
         display: flex;
         justify-content: space-around;
       }
 
       .history-card-metric {
-        width: 100px;
-        /* height: 50px; */
+        /* border: 1px solid black; */
+        width: auto;
+        height: auto;
         line-height: 1;
-        padding: 6px 2px;
+        padding: 6px 9px;
         font-size: 7px;
         white-space: normal;
         word-break: break-word;
       }
+      .history-card-metric span:first-child {
+        font-size: 13px;
+        color: black;
+
+        /* margin-bottom: 8px; */
+        /* border: 1px solid black; */
+      }
+
+      .history-card-metric span:last-child {
+        /* border: 1px solid black; */
+        font-size: 16px;
+
+        font-weight: 800;
+
+        color: black;
+      }
       .history-card-actions {
         flex-wrap: wrap;
-
         justify-content: end;
       }
       .btn-success {
@@ -367,12 +390,13 @@
       .btn-danger {
         padding: 3px 7px;
         border-radius: 6px;
+        margin-right: 10px;
       }
       .history-card-date {
-        color: var(--text-muted);
+        color: black;
         font-size: 8px;
         color: black;
-        /* font-weight: bold; */
+        font-weight: 800;
       }
 
       .calculator-wrapper {
@@ -513,33 +537,32 @@
           card.className = "history-card";
           card.innerHTML = `
                 <div class="history-card-header">
-                  <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;">
+                  <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:2px;">
                     <span id="vehicleNo" class="history-card-title">Vehicle No: ${vehicle}</span>
 
                     <span id="driverName">Stone Type: ${stoneTypeText}</span>
                     <span id="miningOwnerName">Mining Owner: ${miningOwner}</span>
 
-                    <span id="factoryOwnername">Factory Owner: ${factoryOwner}</span>
+                    <span id="factoryOwnername">FAC.Owner: ${factoryOwner}</span>
 
           <span  class="history-card-date">Date: ${date}</span>
           <span id="showDetails"
-          onclick="showDetails('${detailedDate}','${vehicle}','${driver}','${stoneType}','${miningOwner}','${miningOwnerPhone}','${factoryOwner}','${factoryOwnerPhone}')"
-          >
+         onclick="showDetails('${report.id}')" >
           Info >>
           </span>
           </div>
           </div>
           <div   class="history-card-grid">
             <div class="history-card-metric">
-              <span style="color:black;font-size:14px; font-weight:700">Total Stones</span>
+              <span>Total Stones</span>
               <span>${report.totalStones}</span>
               </div>
               <div class="history-card-metric">
-                <span style="color:black;font-size:14px; font-weight:700">Total Area</span>
+                <span>Total Area</span>
                 <span>${report.totalSqFt} SqFt</span>
                 </div>
                 <div class="history-card-metric">
-                  <span style="color:black;font-size:12px; font-weight:700">Squares/చదరాలు</span>
+                  <span>Squares/చదరాలు</span>
                   <span>${report.totalChadaralu}</span>
                   </div>
                   </div>
@@ -557,8 +580,275 @@
         document.getElementById("mandhaluSum").textContent = mandhaluSum;
       }
 
-      //show details
-      function showDetails(
+      /**
+       * Shows the load details.
+       * Can be called with the report ID, the full report object, or individual fields.
+       */
+
+      function showDetails(id) {
+        const history = JSON.parse(localStorage.getItem("reportHistory")) || [];
+        const report = history.find((r) => r.id === id);
+
+        if (!report) {
+          Swal.fire({
+            title: "Report Not Found",
+            text: "Could not load the calculation details for this report.",
+            icon: "error",
+            background: "#84ccc6",
+            color: "black",
+          });
+          return;
+        }
+
+        showReportPreview(report);
+      }
+
+      /**
+       * Renders the high-fidelity report preview inside SweetAlert2
+       */
+      function showReportPreview(report) {
+        // Safe date formatting
+        let reportDate = "--";
+        if (report.date) {
+          try {
+            reportDate = new Date(report.date).toLocaleString("en-IN");
+          } catch (e) {
+            reportDate = report.date;
+          }
+        }
+
+        // 1. Build calculation rows HTML
+        let rowsHtml = "";
+        if (report.rows && report.rows.length > 0) {
+          rowsHtml = report.rows
+            .map((row) => {
+              const n1 = row.n1 || 0;
+              const n2 = row.n2 || 0;
+              const res = Math.floor(n1 * n2);
+              const n3 = row.n3 || 0;
+              const final = Math.floor(res * n3);
+
+              return `
+        <div style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 16px;
+        ">
+            <span style="color: black; font-weight: bold;">
+<strong>${String(n1).padStart(2, "0")}</strong> × <strong>${String(n2).padStart(2, "0")}</strong> = <span style="color:#999;">${String(res).padStart(2, "0")}</span> × <strong style="padding:0px 10px 0px 0px">${String(n3).padStart(2, "0")}(Qty)</strong>  
+            </span>
+            <span style="color: green; font-weight: bold;">
+                =     ${final} SqFt
+            </span>
+        </div>
+      `;
+            })
+            .join("");
+        }
+
+        // 2. Build logistics/truck load HTML
+        let loadDetailsHtml = "";
+        if (report.loadDetails) {
+          const details = report.loadDetails;
+          loadDetailsHtml = `
+      <div style="
+          background: rgba(255, 255, 255, 0.35);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          font-size: 15px;
+          color: black;
+          margin-bottom: 20px;
+          padding: 16px 20px;
+          border-radius: 18px;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      ">
+          <h3 style="
+              margin: 0 0 15px;
+              color: #0f172a;
+              font-size: 20px;
+              font-weight: 800;
+              text-align: center;
+              border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+              padding-bottom: 8px;
+          ">
+              Truck Load Information
+          </h3>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.06); padding: 4px 0;">
+                  <strong>Date Of Loading Vehicle</strong>
+                  <span>${details.DateOfLoading || "--"}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.06); padding: 4px 0;">
+                  <strong>Vehicle Number</strong>
+                  <span style="font-weight: bold; color: darkblue;">${details.vehicleNo || "--"}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.06); padding: 4px 0;">
+                  <strong>Driver Name</strong>
+                  <span>${details.driverName || "--"}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.06); padding: 4px 0;">
+                  <strong>Mining Owner</strong>
+                  <span>${details.miningOwner || "--"}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.06); padding: 4px 0;">
+                  <strong>Mining Owner Phone</strong>
+                  <span>${details.miningOwnerPhone || "--"}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 4px 0;">
+                  <strong>Factory Owner</strong>
+                  <span>${details.factoryOwner || "--"}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: 4px 0;">
+                  <strong>Factory Owner</strong>
+                  <span>${details.factoryOwnerPhone || "--"}</span>
+              </div>
+          </div>
+      </div>
+    `;
+        }
+
+        // 3. Assemble Complete Preview Structure
+        const modalHtml = `
+    <div style="
+        text-align: left;
+        font-family: 'Outfit', sans-serif;
+        padding: 5px;
+        color: #1f2937;
+    ">
+        <!-- Header -->
+        <div style="
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            
+        ">
+           <center> <h3 style="margin: 0; font-size: 1.5rem; color: #0f172a; font-weight: 800;text-decoration: underline;">
+                Stone Area Report
+            </h3></center>
+            <span style="display: flex; justify-content: end">
+        <span
+          style="
+            font-size: 0.85rem;
+            color: #334155;
+            font-weight: 600;
+            // background: rgba(255, 255, 255, 0.4);
+            padding: 4px 8px;
+            border-radius: 20px;
+
+            width: auto;
+          "
+        >
+          ${reportDate}
+        </span>
+      </span>
+        </div>
+
+        <!-- Load Details -->
+        ${loadDetailsHtml}
+
+        <!-- Calculations Heading -->
+        <div style="
+            text-align: center;
+            font-weight: bold;
+            color: black;
+            font-size: 14px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 12px;
+            text-decoration: underline;
+        ">
+            Len x Width =(l x b) x No. of stones = Total Square Feet
+        </div>
+
+        <!-- Calculations Scrollable List -->
+        <div style="
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            padding: 8px 16px;
+            max-height: auto;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        ">
+            ${rowsHtml || '<div style="text-align:center;color:#4b5563;padding:10px;">No rows recorded.</div>'}
+        </div>
+
+        <!-- Totals panel -->
+        <div style="
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            border-top: 2px solid rgba(255, 255, 255, 0.15);
+            padding-top: 16px;
+        ">
+            <div style="
+                background: rgb(200, 237, 233);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                padding: 10px;
+                text-align: center;
+            ">
+                <div style="font-size: 13px; color: black; font-weight: bold; text-transform: uppercase; margin-bottom: 4px;">Total Stones</div>
+                <div style="font-size: 1.3rem; font-weight: 800; color: darkblue;">${report.totalStones}</div>
+            </div>
+            <div style="
+                background: rgb(200, 237, 233);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                padding: 10px;
+                text-align: center;
+            ">
+                <div style="font-size: 13px; color: black; font-weight: bold; text-transform: uppercase; margin-bottom: 4px;">Total Area</div>
+                <div style="font-size: 1.3rem; font-weight: 800; color: brown;">${report.totalSqFt}</div>
+            </div>
+            <div style="
+                background: rgb(200, 237, 233);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                padding: 10px;
+                text-align: center;
+            ">
+                <div style="font-size: 12px; color: black; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; line-height: 1.1;">మొత్తం చదరాలు</div>
+                <div style="font-size: 1.3rem; font-weight: 800; color: green;">${report.totalChadaralu}</div>
+            </div>
+        </div>
+    </div>
+  `;
+
+        // 4. Trigger SweetAlert2 Premium Popup
+        Swal.fire({
+          title: "", // Blank title because header is built inside html structure
+          html: modalHtml,
+          background: "rgb(200, 237, 233)",
+          color: "#1f2937",
+          width: "580px",
+          showDenyButton: true,
+          confirmButtonText:
+            '<i class="fa-solid fa-download"></i> Download JPG',
+          denyButtonText: "Close",
+          buttonsStyling: true,
+          confirmButtonColor: "#0f172a", // Premium slate dark button
+          denyButtonColor: "#475569", // Premium slate gray button
+          customClass: {
+            popup: "custom-swal-popup",
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            downloadSpecificReport(report.id);
+          }
+        });
+      }
+
+      /**
+       * Fallback simple details popup
+       */
+      function showSimpleDetails(
         detailedDate,
         vehicle,
         driver,
@@ -571,21 +861,20 @@
         Swal.fire({
           title: "Load Details",
           html: `
-                  <div style="text-align:left;">
-                      <p><b>Date:</b> ${detailedDate}</p>
-                      <p><b>Vehicle:</b> ${vehicle}</p>
-                      <p><b>Stone Type:</b> ${stoneType}</p>
-                      <p><b>Driver:</b> ${driver}</p>
-                      <p><b>Mining Owner:</b> ${miningOwner}</p>
-                      <p><b>Phone:</b> ${phone}</p>
-                      <p><b>Factory Owner:</b> ${factoryOwner}</p>
-                      <p><b>Factory Owner Number:</b> ${factoryPhone}  </p>
-                  </div>
-              `,
+      <div style="text-align:left; font-family: 'Outfit', sans-serif;">
+          <p style="margin: 8px 0;"><b>Date:</b> ${detailedDate || "--"}</p>
+          <p style="margin: 8px 0;"><b>Vehicle:</b> ${vehicle || "--"}</p>
+          <p style="margin: 8px 0;"><b>Stone Type:</b> ${stoneType || "--"}</p>
+          <p style="margin: 8px 0;"><b>Driver:</b> ${driver || "--"}</p>
+          <p style="margin: 8px 0;"><b>Mining Owner:</b> ${miningOwner || "--"}</p>
+          <p style="margin: 8px 0;"><b>Phone:</b> ${phone || "--"}</p>
+          <p style="margin: 8px 0;"><b>Factory Owner:</b> ${factoryOwner || "--"}</p>
+          <p style="margin: 8px 0;"><b>Factory Owner Number:</b> ${factoryPhone || "--"}</p>
+      </div>
+    `,
           confirmButtonText: "Close",
           background: "#84ccc6",
           color: "black",
-
           customClass: {
             popup: "custom-swal-popup",
           },
@@ -780,6 +1069,10 @@
             <strong>Factory Owner</strong>
             <span>${loadDetails.factoryOwner || "--"}</span>
           </p>
+          <p style="display: flex; justify-content: space-between; padding: 10px 0">
+            <strong>Factory Owner</strong>
+            <span>${loadDetails.factoryOwnerPhone || "--"}</span>
+          </p>
         </div>
       `;
           reportWrapper.innerHTML += infoHtml;
@@ -841,7 +1134,7 @@
           <span style="color: black; font-weight: bolder"
             ><strong>${n1} × ${n2} = ${res} x ${n3}(Qty) =</strong
             ><span style="color: green; font-weight: bolder"
-              >${final} SqFt</span
+              > ${final} SqFt</span
             ></span
           >
         </div>
