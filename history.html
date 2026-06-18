@@ -39,7 +39,7 @@
 
     /* MAIN WRAPPER */
     .calculator-wrapper {
-      max-width: 750px;
+      max-width: 950px;
       width: 100%;
       margin: 30px auto;
       padding: 30px;
@@ -129,19 +129,24 @@
     /* HEADER */
     .history-card-header {
       display: flex;
-      justify-content: space-evenly;
-      align-items: center;
+      justify-content: space-between;
+      /* align-items: center; */
 
       margin-bottom: 18px;
 
       border-bottom: 1px solid rgba(82, 142, 122, 0.15);
-      /* border-bottom: 1px solid black; */
+      /* border: 1px solid black; */
 
       font-size: 18px;
       font-weight: 700;
       padding-bottom: 10px;
     }
 
+    .history-card-header-div {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
     .history-card-title {
       font-size: 17px;
       font-weight: 700;
@@ -345,6 +350,9 @@
         /* border: 1px solid black; */
       }
 
+      .history-card-header-div {
+        gap: 5px;
+      }
       .history-card-grid {
         margin-bottom: 10px;
         margin-top: -15px;
@@ -537,7 +545,7 @@
           card.className = "history-card";
           card.innerHTML = `
                 <div class="history-card-header">
-                  <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:2px;">
+                  <div class="history-card-header-div" >
                     <span id="vehicleNo" class="history-card-title">Vehicle No: ${vehicle}</span>
 
                     <span id="driverName">Stone Type: ${stoneTypeText}</span>
@@ -702,7 +710,7 @@
                   <span>${details.factoryOwner || "--"}</span>
               </div>
               <div style="display: flex; justify-content: space-between; padding: 4px 0;">
-                  <strong>Factory Owner</strong>
+                  <strong>Factory Owner Phone</strong>
                   <span>${details.factoryOwnerPhone || "--"}</span>
               </div>
           </div>
@@ -761,7 +769,6 @@
             padding-bottom: 6px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             margin-bottom: 12px;
-            text-decoration: underline;
         ">
             Len x Width =(l x b) x No. of stones = Total Square Feet
         </div>
@@ -848,38 +855,38 @@
       /**
        * Fallback simple details popup
        */
-      function showSimpleDetails(
-        detailedDate,
-        vehicle,
-        driver,
-        stoneType,
-        miningOwner,
-        phone,
-        factoryOwner,
-        factoryPhone,
-      ) {
-        Swal.fire({
-          title: "Load Details",
-          html: `
-      <div style="text-align:left; font-family: 'Outfit', sans-serif;">
-          <p style="margin: 8px 0;"><b>Date:</b> ${detailedDate || "--"}</p>
-          <p style="margin: 8px 0;"><b>Vehicle:</b> ${vehicle || "--"}</p>
-          <p style="margin: 8px 0;"><b>Stone Type:</b> ${stoneType || "--"}</p>
-          <p style="margin: 8px 0;"><b>Driver:</b> ${driver || "--"}</p>
-          <p style="margin: 8px 0;"><b>Mining Owner:</b> ${miningOwner || "--"}</p>
-          <p style="margin: 8px 0;"><b>Phone:</b> ${phone || "--"}</p>
-          <p style="margin: 8px 0;"><b>Factory Owner:</b> ${factoryOwner || "--"}</p>
-          <p style="margin: 8px 0;"><b>Factory Owner Number:</b> ${factoryPhone || "--"}</p>
-      </div>
-    `,
-          confirmButtonText: "Close",
-          background: "#84ccc6",
-          color: "black",
-          customClass: {
-            popup: "custom-swal-popup",
-          },
-        });
-      }
+      //   function showSimpleDetails(
+      //     detailedDate,
+      //     vehicle,
+      //     driver,
+      //     stoneType,
+      //     miningOwner,
+      //     phone,
+      //     factoryOwner,
+      //     factoryPhone,
+      //   ) {
+      //     Swal.fire({
+      //       title: "Load Details",
+      //       html: `
+      //   <div style="text-align:left; font-family: 'Outfit', sans-serif;">
+      //       <p style="margin: 8px 0;"><b>Date:</b> ${detailedDate || "--"}</p>
+      //       <p style="margin: 8px 0;"><b>Vehicle:</b> ${vehicle || "--"}</p>
+      //       <p style="margin: 8px 0;"><b>Stone Type:</b> ${stoneType || "--"}</p>
+      //       <p style="margin: 8px 0;"><b>Driver:</b> ${driver || "--"}</p>
+      //       <p style="margin: 8px 0;"><b>Mining Owner:</b> ${miningOwner || "--"}</p>
+      //       <p style="margin: 8px 0;"><b>Phone:</b> ${phone || "--"}</p>
+      //       <p style="margin: 8px 0;"><b>Factory Owner:</b> ${factoryOwner || "--"}</p>
+      //       <p style="margin: 8px 0;"><b>Factory Owner Number:</b> ${factoryPhone || "--"}</p>
+      //   </div>
+      // `,
+      //       confirmButtonText: "Close",
+      //       background: "#84ccc6",
+      //       color: "black",
+      //       customClass: {
+      //         popup: "custom-swal-popup",
+      //       },
+      //     });
+      //   }
       // <button class="btn-secondary" onclick="loadIntoCalculator('${report.id}')">📐 Reload</button>
 
       // function loadIntoCalculator(id) {
@@ -902,25 +909,61 @@
       // }
 
       function deleteHistoryItem(id) {
-        if (
-          confirm("Are you sure you want to delete this report from history?")
-        ) {
-          let history = JSON.parse(localStorage.getItem("reportHistory")) || [];
-          history = history.filter((r) => r.id !== id);
-          localStorage.setItem("reportHistory", JSON.stringify(history));
-          renderHistory();
-        }
+        Swal.fire({
+          title: "Delete Report?",
+          text: "Are you sure you want to delete this report from history?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "🗑️ Delete",
+          cancelButtonText: "Cancel",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            let history =
+              JSON.parse(localStorage.getItem("reportHistory")) || [];
+
+            history = history.filter((r) => r.id !== id);
+
+            localStorage.setItem("reportHistory", JSON.stringify(history));
+
+            renderHistory();
+
+            Swal.fire({
+              icon: "success",
+              title: "Deleted!",
+              text: "Report removed from history.",
+              timer: 1500,
+              showConfirmButton: false,
+            });
+          }
+        });
       }
 
       function clearAllHistory() {
-        if (
-          confirm(
-            "Are you sure you want to delete ALL saved reports? This action is irreversible.",
-          )
-        ) {
-          localStorage.removeItem("reportHistory");
-          renderHistory();
-        }
+        Swal.fire({
+          title: "Delete All Reports?",
+          text: "This action is irreversible. All saved reports will be permanently deleted.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "🗑️ Delete All",
+          cancelButtonText: "Cancel",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            localStorage.removeItem("reportHistory");
+            renderHistory();
+
+            Swal.fire({
+              icon: "success",
+              title: "History Cleared",
+              text: "All saved reports have been deleted.",
+              timer: 1500,
+              showConfirmButton: false,
+            });
+          }
+        });
       }
 
       function downloadSpecificReport(id) {
