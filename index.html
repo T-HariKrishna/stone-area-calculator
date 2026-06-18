@@ -104,9 +104,6 @@
     color:white;
 } */
 
-
-      
-
       .calculator-wrapper {
         background: rgb(200, 237, 233);
         border-radius: 20px;
@@ -394,100 +391,59 @@
           transform: scale(1.1);
         }
       }
-      #loadInfo h3 {
-        margin: 0 0 30px;
-        text-align: center;
-        color: #007bff;
-        font-size: 24px;
-        font-weight: 600;
-      }
-       #loadInfo {
-  max-width: 700px;
-  margin: 20px auto;
-  padding: 10px 15px;
-  /* background: #ffffff; */
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  /* border-left: 5px solid #007bff; */
-  font-size: 19px;
-  line-height: 0.4;
-  font-weight: bold;
+     #loadInfo {
+  margin: 15px 0;
+  /* border: 1px solid black; */
+  
 }
 
-
-#loadInfo p {
-  margin: 8px 0;
-  padding: 8px 12px;
-  /* background: #f8f9fa; */
-  border-radius: 6px;
-  font-size: 19px;
+#loadInfo h3 {
+  text-align: center;
+  font-size: 39px;
+  margin-bottom: 10px;
 }
 
-#loadInfo strong {
-  color: black;
-  display: inline-block;
-  min-width: 140px;
+.load-table {
+  /* border: 1px solid black; */
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 20px;
+}
+
+.load-table td {
+  padding: 2px ;
+  /* border: 1px solid black; */
+}
+
+.load-table td:first-child {
+  font-weight: 800;
+  color: #000000;
+}
+.load-table td:nth-child(2) {
+  font-weight: 800;
+  color: rgb(0, 0, 0);
 }
     
-#dateOfLoading{
-      margin-left: 16px;
-    }
-    #stoneType{
-      margin-left: 100px;
-    }
-    #showVehicle{
-      margin-left: 100px;
-    }
-    #showDriver{
-      
-      margin-left: 100px;
-    }#showMining{
-      
-      margin-left: 100px;
-    }#showOwnerPhone{
-       margin-left: 12px;
 
-     }#showFactory{
-      margin-left: 100px;
-     }
 
       /* ── Mobile layout ── */
       @media (min-width: 380px) and (max-width: 440px) {
-        #loadInfo h3{
-          margin-bottom: 15px;
-        }
-        #loadInfo p{
-          padding: 0;
-          font-size: 12px;
-          line-height: 1;
-          font-weight: 800;
-        }
-        #dateOfLoading{
-      margin-left: 0px;
-    }
-        #stoneType{
-          /* font-size: 12.5px; */
-      margin-left: 3px;
-    }
-        #showVehicle
-     {
-      margin-left: 3px;
-    }#showDriver{
       
-      margin-left:3px;
-    }#showMining{
-      
-      margin-left: 3px;
-    }#showOwnerPhone{
-       margin-left: -1px;
-
-     }#showFactory{
-      margin-left: 3px;
-     }
         body {
           padding: 20px 6px;
         }
      
+        #loadInfo h3{
+          font-size: 28px;
+        }
+        .load-table {
+          font-size: 14px;
+          line-height: 1;
+        }
+        .load-table td:first-child {
+        width: 160px;
+        }
+       
 
         .calculator-wrapper {
           padding: 12px 8px;
@@ -612,7 +568,21 @@
     }
       }
 
-     
+     .custom-alert {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #28a745;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  /* font-size: 10px; */
+  z-index: 9999;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
      
      
   
@@ -621,6 +591,10 @@
   </head>
 
   <body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <div id="customAlert" class="custom-alert">
+  ✅ Report saved to History successfully!
+</div>
     <div class="calculator-wrapper">
       <p id="date"></p>
       <h1>Stone Area Calculator - THK</h1>
@@ -633,19 +607,43 @@
           <a href="history.html">History</a>
         </div>
       </nav>
-      <div id="loadInfo">
+  <div id="loadInfo">
   <h3>Load Information</h3>
-  
-  <p><strong>Date Of Loading Vehicle</strong> <span id="dateOfLoading"></span></p>
-  <p><strong>Stone Type</strong> <span id="stoneType"></span></p>
-  <p><strong>Vehicle</strong> <span id="showVehicle"></span></p>
 
-  <p><strong>Driver</strong> <span id="showDriver"></span></p>
-
-  <p><strong>Mining Owner</strong> <span id="showMining"></span></p>
-  <p><strong>Mining Owner Phone No</strong> <span id="showOwnerPhone"></span></p>
-  
-  <p><strong>Factory Owner</strong> <span id="showFactory"></span></p>
+  <table class="load-table">
+    <tr>
+      <td>Date Of Loading</td>
+      <td id="dateOfLoading"></td>
+    </tr>
+    <tr>
+      <td>Stone Type</td>
+      <td id="stoneType"></td>
+    </tr>
+    <tr>
+      <td>Vehicle</td>
+      <td id="showVehicle"></td>
+    </tr>
+    <tr>
+      <td>Driver</td>
+      <td id="showDriver"></td>
+    </tr>
+    <tr>
+      <td>Mining Owner</td>
+      <td id="showMining"></td>
+    </tr>
+    <tr>
+      <td>Mining Owner Ph.No</td>
+      <td id="showOwnerPhone"></td>
+    </tr>
+    <tr>
+      <td>Factory Owner</td>
+      <td id="showFactory"></td>
+    </tr>
+    <tr>
+      <td>Factory Owner Ph.No</td>
+      <td id="factoryPhone"></td>
+    </tr>
+  </table>
 </div>
       <div id="container">
         <div class="row">
@@ -1573,11 +1571,11 @@
       </div>
 
       <div class="total-section">
-        <h2>Total Square Feet / చదరపు అడుగులు</h2>
+        <h3>Total Square Feet / చదరపు అడుగులు</h3>
         <span id="total">0</span>
       </div>
       <div class="total-chadaralu-section">
-        <h2>Total Squares / మొత్తం చదరాలు</h2>
+        <h3>Total Squares / మొత్తం చదరాలు</h3>
         <span id="total-chadaralu">0</span>
       </div>
       <!-- <div class="saveBtnContainer">
@@ -1586,6 +1584,9 @@
       <div class="saveBtnContainer">
         <button id="saveBtn" onclick="saveToHistory()"> Save To History </button>
       </div>
+      <div id="successMsg" style="display:none; color:green; margin-top:8px; font-weight:bold;">
+    ✅ Successfully uploaded the data into Load DB.
+</div>
       <div class="downloadBtnContainer" > 
         <button id="downloadBtn"  onclick="downloadImage()">💾 Download Image </button>
       </div>
@@ -1742,11 +1743,25 @@ function refreshCalculator() {
 
 
 
+//Custom alert
+function showAlert(message, color = "#28a745") {
+  const alertBox = document.getElementById("customAlert");
 
+  alertBox.textContent = message;
+  alertBox.style.background = color;
+  alertBox.style.display = "block";
+
+  setTimeout(() => {
+    alertBox.style.display = "none";
+  }, 3000);
+}
 
 
 // Save Calculator Data to History Logs
 function saveToHistory() {
+
+ successMsg.style.display = "none";
+
   const rows = [];
   console.log("Rows count:", document.querySelectorAll(".row").length);
   document.querySelectorAll(".row").forEach((row) => {
@@ -1759,7 +1774,12 @@ function saveToHistory() {
   });
 
   if (rows.length === 0) {
-    alert("Please add some data before saving.");
+  Swal.fire({
+  icon: "warning",
+  title: "No Data Found",
+  text: "Please add some data before saving.",
+  confirmButtonText: "OK"
+});
     return;
   }
 
@@ -1783,10 +1803,58 @@ console.log("rows length:", rows.length);
   };
 
   const history = JSON.parse(localStorage.getItem("reportHistory")) || [];
+  if (
+  history.length > 0 &&
+  JSON.stringify({
+    loadDetails,
+    rows,
+    totalStones,
+    totalSqFt,
+    totalChadaralu
+  }) ===
+  JSON.stringify({
+    loadDetails: history[0].loadDetails,
+    rows: history[0].rows,
+    totalStones: history[0].totalStones,
+    totalSqFt: history[0].totalSqFt,
+    totalChadaralu: history[0].totalChadaralu
+  })
+) {
+  Swal.fire({
+  icon: "warning",
+  title: "Already Saved",
+  text: "This data is already stored in Load DB.",
+  confirmButtonText: "OK"
+});
+  successMsg.textContent = "⚠️ Already saved";
+  successMsg.style.color = "red";
+  successMsg.style.display = "block";
+  successMsg.style.textAlign = "center";
+  
+  return;
+}
+  
   history.unshift(report); // Add to the top
   localStorage.setItem("reportHistory", JSON.stringify(history));
 
-  alert("Report saved to History successfully!");
+  // showAlert("✅ Report saved to History successfully!");
+  Swal.fire({
+  icon: "success",
+  title: "Saved Successfully",
+  text: "Report uploaded to Load DB.",
+  confirmButtonText: "OK"
+});
+
+
+  successMsg.textContent = "✅ Successfully uploaded to Load DB";
+  successMsg.style.display = "block";
+  successMsg.style.color = "green";
+  successMsg.style.textAlign = "center";
+
+    // Optional: Hide after 3 seconds
+    // setTimeout(() => {
+    //     document.getElementById("successMsg").style.display = "none";
+    // }, 10000);
 }
 
 
@@ -1795,31 +1863,29 @@ const loadDetails =
   JSON.parse(localStorage.getItem("loadDetails"));
 
 if (loadDetails) {
-
-
-  
   document.getElementById("dateOfLoading").textContent =": "+
-    loadDetails.DateOfLoading || "";
+    (loadDetails.DateOfLoading || "--");
   document.getElementById("stoneType").textContent =": "+
-    loadDetails.StoneType || "--";
-    console.log( document.getElementById("stoneType").textContent =": "+
-    loadDetails.StoneType || "--");
+    (loadDetails.StoneType || "--");
+
+    // console.log( document.getElementById("stoneType").textContent =": "+
+    // (loadDetails.StoneType || "--"));
   
     document.getElementById("showVehicle").textContent =": "+
-    loadDetails.vehicleNo || "";
+    (loadDetails.vehicleNo || "--");
 
   document.getElementById("showDriver").textContent =": "+
-    loadDetails.driverName || "";
+    (loadDetails.driverName || "--");
 
   document.getElementById("showMining").textContent =": "+
-    loadDetails.miningOwner || "";
+    (loadDetails.miningOwner || "--");
     document.getElementById("showOwnerPhone").textContent =": "+
-      loadDetails.miningOwnerPhone || "";
+      (loadDetails.miningOwnerPhone || "--");
     
   document.getElementById("showFactory").textContent =": "+
-    loadDetails.factoryOwner || "";
+    (loadDetails.factoryOwner || "--");
   document.getElementById("factoryPhone").textContent =": "+
-    loadDetails.factoryOwnerPhone || "";
+    (loadDetails.factoryOwnerPhone || "--");
 }
 
 //download image
