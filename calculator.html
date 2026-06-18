@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -117,9 +117,9 @@
         button {
           height: 42px;
           font-size: 16px;
-        }        
+        }
       }
-      #calc{
+      #calc {
         border: 1px solid black;
         margin-top: 7px;
         padding: 10px 0px;
@@ -128,21 +128,23 @@
         background-color: #212f8e;
         border-radius: 8px;
       }
-      #calc a{
+      #calc a {
         text-decoration: none;
         color: rgb(255, 255, 255);
         font-weight: 400;
-        
       }
-
-      
     </style>
   </head>
 
   <body>
     <form>
       <div class="calc">
-        <input type="text" id="displayPreview" readonly onclick="usePreview()"/>
+        <input
+          type="text"
+          id="displayPreview"
+          readonly
+          onclick="usePreview()"
+        />
         <input type="text" id="display" placeholder="0" readonly />
 
         <div class="buttons">
@@ -167,26 +169,32 @@
           <button type="button" class="operator" onclick="press('+')">+</button>
 
           <!-- NEW BUTTONS -->
-          <button type="button" class="backspace" onclick="deleteLast()">⌫</button>
-          <button type="button" class="clear" onclick="clearDisplay()">Clear</button>
+          <button type="button" class="backspace" onclick="deleteLast()">
+            ⌫
+          </button>
+          <button type="button" class="clear" onclick="clearDisplay()">
+            Clear
+          </button>
         </div>
-        <div id="calc"><a href="index.html">Go To Customized Multiplication-THK</a></div>
+        <div id="calc">
+          <a href="index.html">Go To Stone Area Calculator-THK</a>
+        </div>
       </div>
     </form>
 
     <script>
       function usePreview() {
-  let preview = document.getElementById("displayPreview").value;
-  let input = document.getElementById("display");
+        let preview = document.getElementById("displayPreview").value;
+        let input = document.getElementById("display");
 
-  if (preview) {
-    input.value = preview;
+        if (preview) {
+          input.value = preview;
 
-    // move cursor to end
-    input.focus();
-    input.setSelectionRange(input.value.length, input.value.length);
-  }
-}
+          // move cursor to end
+          input.focus();
+          input.setSelectionRange(input.value.length, input.value.length);
+        }
+      }
       const input = document.getElementById("display");
 
       function moveCursorToEnd() {
