@@ -489,7 +489,7 @@
           overflow-x: auto;
         }
 
-        .spacer {
+        .spacer {4
           display: none;
         }
 
@@ -1610,6 +1610,10 @@
     <script>
 
 
+
+      document.getElementById("stones").addEventListener("input", function () {
+  this.value = this.value.replace(/[^0-9.]/g, "");
+});
  /* ── Live calculations ── */
       document.addEventListener("input", updateCalculations);
 
